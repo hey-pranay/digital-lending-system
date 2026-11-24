@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Digital Lending System</title>
+
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header>
+  <h2>Digital Lending System</h2>
+
+  <nav>
+    <a th:href="@{/login}">Login</a>
+    <a th:href="@{/register}">Register</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Welcome to Digital Lending System</h1>
+
+  <p>
+    Manage your loans, track repayments,
+    and access a simple digital lending experience.
+  </p>
+
+  <a th:href="@{/login}">Get Started</a>
+</main>
+
+</body>
+</html>
