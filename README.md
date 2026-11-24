@@ -16,7 +16,7 @@ The Digital Lending & Loan Management System aims to simplify the loan applicati
 | Difficulty | Moderate |
 | Team Size | 5 Members |
 | Development Duration | 2 Days |
-| Backend | Java, Spring Boot |
+| Backend | Java 21, Spring Boot |
 | Frontend | Thymeleaf, HTML, CSS, JavaScript |
 | Database | MySQL |
 | Project Status | In Development |
@@ -24,7 +24,7 @@ The Digital Lending & Loan Management System aims to simplify the loan applicati
 ## Technology Stack
 
 ### Backend
-- Java 17+
+- Java 21
 - Spring Boot
 - Spring MVC
 - Spring Data JPA
@@ -55,7 +55,6 @@ The Digital Lending & Loan Management System aims to simplify the loan applicati
 ## Core Features
 
 ### 1. Borrower Module
-
 - User registration and login.
 - Borrower profile management.
 - Apply for loans by specifying the loan amount and tenure.
@@ -67,7 +66,6 @@ The Digital Lending & Loan Management System aims to simplify the loan applicati
 - View repayment history.
 
 ### 2. Admin Module
-
 - Admin authentication.
 - View all loan applications.
 - Filter applications based on loan status.
@@ -77,7 +75,6 @@ The Digital Lending & Loan Management System aims to simplify the loan applicati
 - Monitor loan and repayment status.
 
 ### 3. Security
-
 - JWT-based authentication.
 - BCrypt password hashing.
 - Role-based authorization.
@@ -85,7 +82,6 @@ The Digital Lending & Loan Management System aims to simplify the loan applicati
 - Separate access for ADMIN and BORROWER roles.
 
 ### 4. Validation & Exception Handling
-
 - Validate loan amounts and tenure.
 - Check borrower income eligibility.
 - Prevent duplicate active loan applications.
@@ -115,19 +111,16 @@ The application consists of four primary entities.
 | Loan → Repayment | One-to-Many |
 
 ### Loan Status
-
 - APPLIED
 - APPROVED
 - REJECTED
 - CLOSED
 
 ### Repayment Status
-
 - PENDING
 - PAID
 
 ### User Roles
-
 - ADMIN
 - BORROWER
 
@@ -150,55 +143,27 @@ digital-lending-system/
 │   ├── main/
 │   │   ├── java/
 │   │   │   └── com/sprint/lending/
-│   │   │       │
 │   │   │       ├── controller/
-│   │   │       │   ├── AuthController.java
-│   │   │       │   ├── LoanController.java
-│   │   │       │   └── AdminController.java
-│   │   │       │
 │   │   │       ├── service/
-│   │   │       │   ├── LoanService.java
-│   │   │       │   ├── RepaymentService.java
-│   │   │       │   └── EmiCalculator.java
-│   │   │       │
 │   │   │       ├── repository/
-│   │   │       │   ├── UserRepository.java
-│   │   │       │   ├── LoanRepository.java
-│   │   │       │   └── RepaymentRepository.java
-│   │   │       │
 │   │   │       ├── entity/
-│   │   │       │   ├── User.java
-│   │   │       │   ├── BorrowerProfile.java
-│   │   │       │   ├── Loan.java
-│   │   │       │   └── Repayment.java
-│   │   │       │
 │   │   │       ├── dto/
 │   │   │       │   ├── request/
 │   │   │       │   └── response/
-│   │   │       │
 │   │   │       ├── security/
-│   │   │       │   ├── JwtUtil.java
-│   │   │       │   ├── JwtFilter.java
-│   │   │       │   └── SecurityConfig.java
-│   │   │       │
 │   │   │       ├── exception/
-│   │   │       │
 │   │   │       ├── config/
-│   │   │       │
 │   │   │       └── LendingApplication.java
 │   │   │
 │   │   └── resources/
-│   │       │
 │   │       ├── templates/
 │   │       │   ├── auth/
 │   │       │   ├── borrower/
 │   │       │   └── admin/
-│   │       │
 │   │       ├── static/
 │   │       │   ├── css/
 │   │       │   ├── js/
 │   │       │   └── images/
-│   │       │
 │   │       └── application.properties
 │   │
 │   └── test/
@@ -269,20 +234,20 @@ The application uses Thymeleaf for server-side HTML rendering.
 
 ---
 
-## EMI Calculation
 
-The application calculates monthly EMI using the standard reducing-balance interest formula:
+### EMI Calculation Formula
 
-**EMI Formula:**
+The Equated Monthly Instalment (EMI) is calculated using the following formula:
 
-EMI = P × r × (1 + r)^n / ((1 + r)^n − 1)
+$$
+EMI = \frac{P \times r \times (1+r)^n}{(1+r)^n-1}
+$$
 
-Where:
-
-- P = Principal loan amount.
-- r = Monthly interest rate (annual interest rate divided by 12 and 100).
-- n = Loan tenure in months.
-
+**Where:**
+- `P` = Principal loan amount
+- `r` = Monthly interest rate (Annual interest rate / 12 / 100)
+- `n` = Loan tenure in months
+- `EMI` = Equated Monthly Instalment
 ---
 
 ## Getting Started
@@ -291,7 +256,7 @@ Where:
 
 Make sure the following tools are installed:
 
-- Java 17 or higher.
+- Java 21.
 - Maven.
 - MySQL 8 or higher.
 - Git.
@@ -300,7 +265,7 @@ Make sure the following tools are installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/digital-lending-system.git
+git clone https://github.com/hey-pranay/digital-lending-system.git
 ```
 
 ### 2. Navigate to the Project
@@ -342,6 +307,12 @@ Using Maven:
 mvn spring-boot:run
 ```
 
+On Windows, you can also use:
+
+```bash
+mvnw.cmd spring-boot:run
+```
+
 Or run `LendingApplication.java` directly from your IDE.
 
 The application will be available at:
@@ -352,71 +323,325 @@ http://localhost:8080
 
 ---
 
-## Team Collaboration & Git Workflow
+# Team Collaboration & Git Workflow
 
 This project is developed collaboratively by a team of five members.
 
-GitHub is used for source-code management, version control, collaboration, and integration.
+GitHub is used for source-code management, version control, collaboration, code reviews, and integration.
 
-### Branch Strategy
+## 1. Team Responsibilities & Branch Allocation
 
-The `main` branch is the default branch and contains integrated project code.
+Each team member is responsible for implementing and maintaining their assigned feature.
 
-Each team member works on a dedicated feature branch based on their assigned responsibility.
+| Member | Feature / Responsibility | Branch |
+|---|---|---|
+| Member 1 – Team Lead | Thymeleaf Frontend, GitHub Management & Integration | `feature/thymeleaf-frontend` |
+| Member 2 | Authentication & Security | `feature/auth-security` |
+| Member 3 | Domain Model & Database | `feature/domain-model` |
+| Member 4 | Borrower Loan Application & EMI | `feature/loan-application` |
+| Member 5 | Admin Loan Management & Repayments | `feature/admin-repayment-management` |
 
-| Branch | Responsibility |
-|---|---|
-| `main` | Stable and integrated project code |
-| `feature/admin-repayments` | Admin operations and repayment management |
-| `feature/domain-model` | Entities, relationships, and repositories |
-| `feature/auth-security` | Authentication and authorization |
-| `feature/loan-application` | Borrower loan application and EMI calculation |
-| `feature/frontend-testing` | Thymeleaf frontend and API testing |
+### Member 1 – Thymeleaf Frontend & Team Lead
+- Develop login and registration pages.
+- Develop borrower and admin dashboards.
+- Develop loan application forms.
+- Display loan details and repayment schedules.
+- Integrate Thymeleaf pages with backend functionality.
+- Manage GitHub repository and branch coordination.
+- Review Pull Requests and coordinate integration.
 
-### Contribution Workflow
+### Member 2 – Authentication & Security
+- Implement borrower registration and login.
+- Implement BCrypt password hashing.
+- Generate and validate JWT tokens.
+- Configure Spring Security.
+- Implement role-based authorization.
+- Secure application endpoints.
 
-1. Clone the GitHub repository.
-2. Switch to your assigned feature branch.
-3. Implement the assigned functionality.
-4. Test your changes.
-5. Commit changes with meaningful commit messages.
-6. Push changes to your feature branch.
-7. Create a Pull Request targeting `main`.
-8. Get the changes reviewed before merging.
+### Member 3 – Domain Model & Database
+- Create User, BorrowerProfile, Loan, and Repayment entities.
+- Implement JPA entity relationships.
+- Create Spring Data JPA repositories.
+- Configure MySQL database integration.
+- Prepare database initialization and sample data.
 
-**Important Git Rules:**
+### Member 4 – Borrower Loan Application & EMI
+- Implement loan application functionality.
+- Validate loan amount and tenure.
+- Implement income eligibility checks.
+- Calculate monthly EMI.
+- Prevent duplicate active loan applications.
+- Allow borrowers to view their loan applications.
 
-- `main` is the default branch.
-- Direct pushes to `main` are not permitted.
-- Each member must work on their assigned feature branch.
-- All changes must be submitted through Pull Requests.
-- Meaningful commit messages must be used.
-- Team members should synchronize their branches with the latest `main` regularly.
+### Member 5 – Admin Loan Management & Repayments
+- Implement admin loan application listing.
+- Filter applications by status.
+- Implement loan approval and rejection.
+- Add rejection remarks.
+- Generate repayment schedules after approval.
+- Implement repayment viewing and payment status updates.
 
-### Commit Message Convention
+**Team coordination:** Entities, DTOs, API contracts, shared configurations, and database changes must be discussed and agreed upon by the relevant members before implementation to avoid integration conflicts.
 
-| Prefix | Purpose |
-|---|---|
-| `feat:` | New functionality |
-| `fix:` | Bug fixes |
-| `refactor:` | Code improvements |
-| `test:` | Test cases |
-| `docs:` | Documentation |
-| `chore:` | Configuration and maintenance |
+## 2. Branch Strategy
+
+We follow a feature-based branching strategy.
+
+```text
+main
+│
+├── feature/thymeleaf-frontend
+├── feature/auth-security
+├── feature/domain-model
+├── feature/loan-application
+└── feature/admin-repayment-management
+```
+
+### Branch Naming Convention
+
+Use meaningful branch names with the following prefixes:
+
+| Prefix | Purpose | Example |
+|---|---|---|
+| `main` | Main integration branch | `main` |
+| `feature/` | New application functionality | `feature/loan-application` |
+| `fix/` | Bug fixes | `fix/emi-calculation` |
+| `docs/` | Documentation changes | `docs/update-readme` |
+| `refactor/` | Code restructuring | `refactor/loan-service` |
+| `test/` | Testing-related changes | `test/loan-service` |
+
+## 3. Development Workflow
+
+Every team member should follow this workflow:
+
+**Step 1: Clone the repository**
+
+```bash
+git clone https://github.com/hey-pranay/digital-lending-system.git
+
+cd digital-lending-system
+```
+
+**Step 2: Switch to your assigned branch**
+
+Example for Member 4:
+
+```bash
+git switch feature/loan-application
+```
+
+**Step 3: Get the latest changes from your branch**
+
+```bash
+git pull origin feature/loan-application
+```
+
+**Step 4: Implement and test your assigned feature.**
+
+**Step 5: Stage your changes**
+
+```bash
+git add .
+```
+
+**Step 6: Commit your changes**
+
+```bash
+git commit -m "feat(loan): implement loan application"
+```
+
+**Step 7: Push to your assigned branch**
+
+```bash
+git push origin feature/loan-application
+```
+
+**Step 8: Create a Pull Request**
+
+- Open the repository on GitHub.
+- Select Pull Requests.
+- Click New Pull Request.
+- Select your feature branch as the source branch.
+- Select `main` as the target branch.
+- Add a meaningful title and description.
+- Submit the Pull Request.
+
+**Step 9: Code Review and Merge**
+
+The team lead reviews the changes, requests corrections if needed, and merges approved Pull Requests into `main`.
+
+### Important Git Rules
+
+- `main` is the main integration branch.
+- Do not work directly on `main`.
+- Push your work to your assigned feature branch.
+- Submit changes through Pull Requests.
+- Do not merge your own Pull Request without the agreed review.
+- Keep commits focused and meaningful.
+- Test changes before pushing.
+- Coordinate changes to shared entities, DTOs, and configurations.
+- Never commit passwords, database credentials, JWT secrets, or other sensitive information.
+- Synchronize your feature branch with the latest `main` when required.
+
+*Note: These are the team's contribution rules. Technical restrictions on direct pushes to `main` depend on the repository's active GitHub branch protection settings.*
+
+## 4. Commit Message Convention
+
+We follow a simplified version of **Conventional Commits** to maintain consistent and meaningful commit history.
+
+### Commit Message Format
+
+```text
+type(scope): short description
+```
+
+- `type`: Category of the change.
+- `scope`: Optional module or area affected.
+- `short description`: A brief explanation of the change.
+
+### Commit Types Explained
+
+| Prefix | Meaning | When to Use |
+|---|---|---|
+| `feat` | Feature | Adding new functionality to the application |
+| `fix` | Fix | Correcting a bug or unexpected behavior |
+| `docs` | Documentation | Updating README, API documentation, or other documents |
+| `chore` | Maintenance | Project setup, configuration, dependencies, or routine maintenance |
+| `refactor` | Refactoring | Improving code structure without changing existing functionality |
+| `test` | Testing | Adding or updating unit and integration tests |
+| `style` | Code Style | Formatting, indentation, and whitespace changes without changing logic |
+| `perf` | Performance | Improving application performance |
+| `build` | Build System | Updating Maven configuration or build dependencies |
+| `ci` | Continuous Integration | Updating CI/CD configuration and GitHub Actions |
+| `revert` | Revert | Reversing an earlier commit |
+
+### Understanding the Four Most Important Types
+
+**1. `feat` – New Feature**
+
+Use `feat` when adding something new to the application.
 
 Examples:
 
 ```bash
-git commit -m "feat: create borrower profile entity"
+git commit -m "feat(auth): implement borrower registration"
 
-git commit -m "feat: implement JWT authentication"
+git commit -m "feat(loan): add loan application API"
 
-git commit -m "feat: add loan application API"
-
-git commit -m "fix: correct EMI calculation"
-
-git commit -m "docs: update project README"
+git commit -m "feat(ui): create borrower dashboard"
 ```
+
+**2. `fix` – Bug Fix**
+
+Use `fix` when correcting something that is not working as expected.
+
+Examples:
+
+```bash
+git commit -m "fix(loan): correct EMI calculation"
+
+git commit -m "fix(auth): resolve invalid JWT validation"
+
+git commit -m "fix(ui): correct login form validation"
+```
+
+**3. `docs` – Documentation**
+
+Use `docs` when updating project documentation without changing application functionality.
+
+Examples:
+
+```bash
+git commit -m "docs(readme): update project overview"
+
+git commit -m "docs(api): add loan endpoint documentation"
+
+git commit -m "docs(git): add contribution guidelines"
+```
+
+**4. `chore` – Project Maintenance**
+
+Use `chore` for routine project maintenance that does not introduce a feature, fix a bug, or primarily change documentation.
+
+Examples:
+
+```bash
+git commit -m "chore: initialize Spring Boot project"
+
+git commit -m "chore(git): add gitignore configuration"
+
+git commit -m "chore(config): configure application properties"
+```
+
+### More Commit Message Examples
+
+```bash
+# Refactoring
+git commit -m "refactor(loan): simplify loan service logic"
+
+# Testing
+git commit -m "test(auth): add registration service tests"
+
+# Formatting
+git commit -m "style(controller): format controller methods"
+
+# Performance
+git commit -m "perf(loan): optimize loan retrieval query"
+
+# Build configuration
+git commit -m "build(maven): update project dependencies"
+
+# Continuous integration
+git commit -m "ci(github): configure GitHub Actions workflow"
+```
+
+### Commit Message Best Practices
+
+- Always use lowercase commit types.
+- Write short, meaningful descriptions.
+- Use imperative verbs such as `add`, `update`, `implement`, and `fix`.
+- Keep commits focused on one logical change.
+- Avoid vague messages such as `changes`, `updated code`, `final commit`, or `new changes`.
+- Add a scope when it helps identify the affected module.
+
+## 5. Pull Request Guidelines
+
+Every Pull Request should contain:
+
+- A descriptive title.
+- A summary of the implemented changes.
+- A list of important modifications.
+- Testing details.
+- Any known issues or integration dependencies.
+
+### Example Pull Request Title
+
+```text
+feat(loan): implement borrower loan application
+```
+
+### Example Pull Request Description
+
+```markdown
+## Description
+Implemented borrower loan application functionality.
+
+## Changes
+- Added loan application endpoint.
+- Added loan validation.
+- Implemented EMI calculation.
+- Added income eligibility checks.
+
+## Testing
+- Verified valid loan applications.
+- Tested invalid loan amounts.
+- Tested tenure validation.
+
+## Related Branch
+feature/loan-application
+```
+
+All Pull Requests should target `main` and be reviewed before merging.
 
 ---
 
