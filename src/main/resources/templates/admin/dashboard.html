@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Digital Lending</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="dashboard-page">
+
+<div class="dashboard-container">
+
+    <!-- Admin Sidebar -->
+    <aside th:replace="~{fragments/common :: adminSidebar('dashboard')}"></aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+
+        <header class="dashboard-header">
+            <div>
+                <h1>Admin Dashboard</h1>
+                <p>Overview of your lending operations.</p>
+            </div>
+
+            <div class="dashboard-user">
+                <div class="user-avatar">A</div>
+                <span>Administrator</span>
+            </div>
+        </header>
+
+        <!-- Statistics -->
+        <section class="dashboard-section">
+            <h2>Platform Overview</h2>
+
+            <div class="summary-grid">
+
+                <div class="summary-card">
+                    <p>Total Applications</p>
+                    <h2>0</h2>
+                </div>
+
+                <div class="summary-card">
+                    <p>Pending Applications</p>
+                    <h2>0</h2>
+                </div>
+
+                <div class="summary-card">
+                    <p>Approved Loans</p>
+                    <h2>0</h2>
+                </div>
+
+                <div class="summary-card">
+                    <p>Rejected Applications</p>
+                    <h2>0</h2>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Financial Overview -->
+        <section class="dashboard-section">
+            <h2>Financial Overview</h2>
+
+            <div class="summary-grid">
+
+                <div class="summary-card">
+                    <p>Total Loan Amount</p>
+                    <h2>₹0.00</h2>
+                </div>
+
+                <div class="summary-card">
+                    <p>Total Amount Repaid</p>
+                    <h2>₹0.00</h2>
+                </div>
+
+                <div class="summary-card">
+                    <p>Outstanding Amount</p>
+                    <h2>₹0.00</h2>
+                </div>
+
+                <div class="summary-card">
+                    <p>Overdue Instalments</p>
+                    <h2>0</h2>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="dashboard-section">
+            <h2>Management Actions</h2>
+
+            <div class="action-grid">
+
+                <a th:href="@{/admin/applications}" class="action-card">
+                    <h3>Loan Applications</h3>
+                    <p>Review, approve or reject borrower applications.</p>
+                </a>
+
+                <a th:href="@{/admin/loans}" class="action-card">
+                    <h3>Manage Loans</h3>
+                    <p>View and monitor all approved loans.</p>
+                </a>
+
+                <a th:href="@{/admin/repayments}" class="action-card">
+                    <h3>Repayment Monitoring</h3>
+                    <p>Track paid, pending and overdue instalments.</p>
+                </a>
+
+            </div>
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

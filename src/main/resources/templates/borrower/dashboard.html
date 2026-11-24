@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Borrower Dashboard | Digital Lending</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="dashboard-page">
+
+<div class="dashboard-container">
+
+    <!-- Reusable Borrower Sidebar -->
+    <div th:replace="~{fragments/common :: borrowerSidebar('dashboard')}"></div>
+
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div>
+                <h1>Welcome Back!</h1>
+                <p>Here's an overview of your loan account.</p>
+            </div>
+
+            <div class="dashboard-user">
+                <div class="user-avatar">B</div>
+                <span>Borrower</span>
+            </div>
+        </header>
+
+        <!-- Loan Summary -->
+        <section class="dashboard-summary">
+
+            <h2>Loan Overview</h2>
+
+            <div class="summary-grid">
+
+                <div class="summary-card">
+                    <p>Total Loan Amount</p>
+                    <h3>₹0.00</h3>
+                </div>
+
+                <div class="summary-card">
+                    <p>Outstanding Balance</p>
+                    <h3>₹0.00</h3>
+                </div>
+
+                <div class="summary-card">
+                    <p>Monthly EMI</p>
+                    <h3>₹0.00</h3>
+                </div>
+
+                <div class="summary-card">
+                    <p>Loan Status</p>
+                    <h3>Not Applied</h3>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="dashboard-actions">
+
+            <h2>Quick Actions</h2>
+
+            <div class="action-grid">
+                <a href="#" class="action-card">
+                    <h3>Apply for Loan</h3>
+                    <p>Start a new loan application.</p>
+                </a>
+
+                <a href="#" class="action-card">
+                    <h3>View My Loans</h3>
+                    <p>Check your loan details and status.</p>
+                </a>
+
+                <a href="#" class="action-card">
+                    <h3>Repayment History</h3>
+                    <p>Review your previous repayments.</p>
+                </a>
+            </div>
+
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="dashboard-activity">
+
+            <h2>Recent Activity</h2>
+
+            <div class="activity-empty">
+                <p>No recent activity to display.</p>
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>
