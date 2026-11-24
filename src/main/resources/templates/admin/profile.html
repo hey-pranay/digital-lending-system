@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Profile | Digital Lending</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="dashboard-page">
+
+<div class="dashboard-container">
+
+  <!-- Admin Sidebar -->
+  <aside th:replace="~{fragments/common :: adminSidebar('profile')}"></aside>
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+
+    <header class="dashboard-header">
+      <div>
+        <h1>My Profile</h1>
+        <p>View and manage your administrator account information.</p>
+      </div>
+
+      <div class="dashboard-user">
+        <div class="user-avatar">A</div>
+        <span>Administrator</span>
+      </div>
+    </header>
+
+    <!-- Profile Information -->
+    <section class="profile-section">
+
+      <div class="profile-header">
+
+        <div class="profile-avatar">A</div>
+
+        <div class="profile-heading">
+          <h2>Administrator Name</h2>
+          <p>System Administrator</p>
+        </div>
+
+        <button type="button" class="edit-profile-button">
+          Edit Profile
+        </button>
+
+      </div>
+
+      <div class="profile-divider"></div>
+
+      <!-- Personal Information -->
+      <div class="profile-details-section">
+
+        <h3>Personal Information</h3>
+
+        <div class="profile-details-grid">
+
+          <div class="profile-detail">
+            <label>Full Name</label>
+            <p>Administrator Name</p>
+          </div>
+
+          <div class="profile-detail">
+            <label>Email Address</label>
+            <p>admin@example.com</p>
+          </div>
+
+          <div class="profile-detail">
+            <label>Phone Number</label>
+            <p>Not Provided</p>
+          </div>
+
+          <div class="profile-detail">
+            <label>Address</label>
+            <p>Not Provided</p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="profile-divider"></div>
+
+      <!-- Account Information -->
+      <div class="profile-details-section">
+
+        <h3>Account Information</h3>
+
+        <div class="profile-details-grid">
+
+          <div class="profile-detail">
+            <label>Account Role</label>
+            <p>ADMIN</p>
+          </div>
+
+          <div class="profile-detail">
+            <label>Account Status</label>
+            <p>Active</p>
+          </div>
+
+          <div class="profile-detail">
+            <label>Username</label>
+            <p>admin</p>
+          </div>
+
+          <div class="profile-detail">
+            <label>Account Type</label>
+            <p>Administrator Account</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+</body>
+</html>

@@ -28,5 +28,10 @@ public class AdminControllerPage {
         return "admin/repayments";
     }
 
+    @GetMapping("/profile")
+    public String adminProfilePage() {
+        return "admin/profile";
+    }
+
 
 }

@@ -97,6 +97,11 @@
             Repayments
         </a>
 
+        <a th:href="@{/admin/profile}"
+           th:classappend="${activePage == 'profile'} ? ' active' : ''">
+            My Profile
+        </a>
+
     </nav>
 
     <a th:href="@{/login}" class="dashboard-logout">Logout</a>
