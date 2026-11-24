@@ -6,6 +6,51 @@ The Digital Lending & Loan Management System aims to simplify the loan applicati
 
 ---
 
+## Table of Contents
+
+1. [Project Overview](#project-overview)
+2. [Technology Stack](#technology-stack)
+    - [Backend](#backend)
+    - [Frontend](#frontend)
+    - [Database](#database)
+    - [Development Tools](#development-tools)
+3. [Core Features](#core-features)
+    - [Borrower Module](#1-borrower-module)
+    - [Admin Module](#2-admin-module)
+    - [Security](#3-security)
+    - [Validation & Exception Handling](#4-validation--exception-handling)
+4. [Domain Model & Database Relationships](#domain-model--database-relationships)
+    - [Entity Relationships](#entity-relationships)
+    - [Loan Status](#loan-status)
+    - [Repayment Status](#repayment-status)
+    - [User Roles](#user-roles)
+5. [Project Architecture](#project-architecture)
+    - [Project Structure](#project-structure)
+6. [REST API Endpoints](#rest-api-endpoints)
+    - [Authentication APIs](#authentication-apis)
+    - [Borrower APIs](#borrower-apis)
+    - [Admin APIs](#admin-apis)
+7. [Frontend Pages](#frontend-pages)
+8. [EMI Calculation Formula](#emi-calculation-formula)
+9. [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Clone the Repository](#1-clone-the-repository)
+    - [Navigate to the Project](#2-navigate-to-the-project)
+    - [Configure MySQL](#3-configure-mysql)
+    - [Configure Application Properties](#4-configure-application-properties)
+    - [Run the Application](#5-run-the-application)
+10. [Team Collaboration & Git Workflow](#team-collaboration--git-workflow)
+    - [Team Responsibilities & Branch Allocation](#1-team-responsibilities--branch-allocation)
+    - [Branch Strategy](#2-branch-strategy)
+    - [Development Workflow](#3-development-workflow)
+    - [Commit Message Convention](#4-commit-message-convention)
+    - [Pull Request Guidelines](#5-pull-request-guidelines)
+11. [Development Objectives](#development-objectives)
+12. [Project Deliverables](#project-deliverables)
+13. [Acknowledgement](#acknowledgement)
+
+---
+
 ## Project Overview
 
 | Detail | Description |
@@ -234,8 +279,7 @@ The application uses Thymeleaf for server-side HTML rendering.
 
 ---
 
-
-### EMI Calculation Formula
+## EMI Calculation Formula
 
 The Equated Monthly Instalment (EMI) is calculated using the following formula:
 
@@ -248,6 +292,7 @@ $$
 - `r` = Monthly interest rate (Annual interest rate / 12 / 100)
 - `n` = Loan tenure in months
 - `EMI` = Equated Monthly Instalment
+
 ---
 
 ## Getting Started
