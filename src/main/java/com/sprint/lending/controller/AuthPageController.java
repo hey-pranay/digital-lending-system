@@ -11,4 +11,9 @@ public class AuthPageController {
         return "auth/login";
     }
 
+    @GetMapping("/register")
+    public String registerPage() {
+        return "auth/register";
+    }
+
 }
