@@ -1,89 +1,224 @@
 
-/* Reset default browser spacing */
+/* =========================================
+   1. GLOBAL RESET
+========================================= */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Main page */
+html,
+body {
+    min-height: 100%;
+}
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f7fb;
-    color: #1e293b;
-}
-
-/* Header */
-header {
+    background-color: #f8fafc;
+    color: #0f172a;
+    min-height: 100vh;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 60px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    flex-direction: column;
 }
-
-header h2 {
-    color: #2563eb;
-}
-
-nav a {
-    text-decoration: none;
-    color: #334155;
-    margin-left: 25px;
-    font-weight: bold;
-}
-
-/* Main content */
-main {
-    text-align: center;
-    padding: 140px 20px;
-}
-
-main h1 {
-    font-size: 42px;
-    margin-bottom: 20px;
-    color: #1e3a8a;
-}
-
-main p {
-    font-size: 18px;
-    color: #64748b;
-    margin-bottom: 35px;
-}
-
-main a {
-    display: inline-block;
-    padding: 14px 30px;
-    background-color: #2563eb;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-weight: bold;
-}
-
-main a:hover {
-    background-color: #1d4ed8;
-}
-
 
 
 /* =========================================
-   LOGIN PAGE - PREMIUM FINTECH DESIGN
+   2. HOME PAGE - PREMIUM FINTECH
 ========================================= */
 
-.login-container {
-    min-height: 100vh;
+.home-hero {
+    flex: 1;
+    min-height: 0;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 90px 24px;
+    text-align: center;
+
+    background:
+            radial-gradient(circle at 15% 20%, rgba(13, 148, 136, 0.20), transparent 35%),
+            radial-gradient(circle at 85% 80%, rgba(45, 212, 191, 0.12), transparent 35%),
+            linear-gradient(135deg, #0f172a, #162b45);
+
+    color: #ffffff;
+}
+
+.hero-content {
+    max-width: 850px;
+}
+
+.hero-tagline {
+    display: inline-block;
+    padding: 9px 18px;
+    margin-bottom: 28px;
+    border: 1px solid rgba(94, 234, 212, 0.35);
+    border-radius: 30px;
+    background-color: rgba(13, 148, 136, 0.12);
+    color: #5eead4;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.hero-content h1 {
+    font-size: 52px;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    font-weight: 700;
+}
+
+.hero-content h1 span {
+    color: #5eead4;
+}
+
+.hero-description {
+    max-width: 680px;
+    margin: 0 auto 38px;
+    color: #cbd5e1;
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.hero-button {
+    display: inline-block;
+    padding: 15px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.hero-button-primary {
+    background-color: #0d9488;
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(13, 148, 136, 0.25);
+}
+
+.hero-button-primary:hover {
+    background-color: #0f766e;
+    transform: translateY(-2px);
+}
+
+.hero-button-secondary {
+    border: 1px solid #64748b;
+    color: #ffffff;
+}
+
+.hero-button-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: #5eead4;
+}
+
+
+/* =========================================
+   3. REUSABLE NAVBAR
+========================================= */
+
+.public-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 60px;
+    background-color: #0f172a;
+    color: #ffffff;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.navbar-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.navbar-links a:hover {
+    color: #5eead4;
+}
+
+.navbar-links .navbar-register {
+    background-color: #0d9488;
+    color: #ffffff;
+    padding: 11px 20px;
+    border-radius: 7px;
+}
+
+.navbar-links .navbar-register:hover {
+    background-color: #0f766e;
+    color: #ffffff;
+}
+
+
+/* =========================================
+   4. REUSABLE FOOTER
+========================================= */
+
+.common-footer {
+    padding: 22px 20px;
+    background-color: #0f172a;
+    color: #94a3b8;
+    text-align: center;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   5. AUTHENTICATION PAGES
+   LOGIN AND REGISTER
+========================================= */
+
+/* Override home page body layout on auth pages */
+body.auth-page {
+    display: block;
+    min-height: 100vh;
+    min-height: 100svh;
+    background-color: #f8fafc;
+}
+
+/* Main two-column layout */
+.login-container {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: stretch;
     background-color: #f8fafc;
 }
 
 /* LEFT BANNER */
 
 .login-banner {
-    width: 48%;
+    width: 45%;
     min-height: 100vh;
-    padding: 45px 60px;
+    min-height: 100svh;
+    padding: 35px 50px;
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -136,7 +271,7 @@ main a:hover {
 }
 
 .banner-content h1 {
-    font-size: 48px;
+    font-size: 44px;
     line-height: 1.2;
     margin-bottom: 22px;
 }
@@ -159,67 +294,86 @@ main a:hover {
 }
 
 
-/* RIGHT LOGIN SECTION */
+/* RIGHT FORM SECTION */
 
 .login-form-section {
-    width: 52%;
+    width: 55%;
     min-height: 100vh;
+    min-height: 100svh;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 40px 25px;
+
+    padding: 24px 35px;
 }
+
+/* Common login/register card */
 
 .login-card {
     width: 100%;
-    max-width: 430px;
-    padding: 42px;
+    max-width: 440px;
+    padding: 32px;
+
     background-color: #ffffff;
     border: 1px solid #e2e8f0;
-    border-radius: 16px;
+    border-radius: 14px;
 
     box-shadow: 0 15px 45px rgba(15, 23, 42, 0.06);
 }
 
+/* Form heading */
+
 .form-heading {
-    margin-bottom: 32px;
+    margin-bottom: 24px;
 }
 
 .form-heading h2 {
-    font-size: 27px;
+    font-size: 25px;
     color: #0f172a;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .form-heading > p:last-child {
     color: #64748b;
     font-size: 14px;
+    line-height: 1.5;
 }
 
 
-/* FORM INPUTS */
+/* =========================================
+   6. FORM INPUTS
+========================================= */
 
 .form-group {
-    margin-bottom: 22px;
+    margin-bottom: 17px;
 }
 
 .form-group label {
     display: block;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     color: #334155;
-    margin-bottom: 9px;
+    margin-bottom: 7px;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
+    display: block;
     width: 100%;
-    padding: 14px 15px;
+    height: 43px;
+    padding: 10px 13px;
+
     border: 1px solid #cbd5e1;
     border-radius: 8px;
     outline: none;
-    font-size: 14px;
+
+    background-color: #ffffff;
     color: #0f172a;
+    font-family: inherit;
+    font-size: 13px;
+
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -227,20 +381,28 @@ main a:hover {
     color: #94a3b8;
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-group select:focus {
     border-color: #0d9488;
     box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
 }
 
+.form-group select {
+    cursor: pointer;
+}
 
-/* REMEMBER ME AND FORGOT PASSWORD */
+
+/* =========================================
+   7. LOGIN OPTIONS
+========================================= */
 
 .form-options {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-    margin-bottom: 25px;
+
+    margin-bottom: 20px;
     font-size: 13px;
 }
 
@@ -262,18 +424,31 @@ main a:hover {
     font-weight: 600;
 }
 
+.form-options a:hover,
+.register-link a:hover {
+    color: #0f766e;
+    text-decoration: underline;
+}
 
-/* LOGIN BUTTON */
+
+/* =========================================
+   8. BUTTONS AND LINKS
+========================================= */
 
 .login-button {
     width: 100%;
-    padding: 15px;
+    padding: 13px;
+
     background: linear-gradient(135deg, #0d9488, #0f766e);
     color: #ffffff;
+
     border: none;
     border-radius: 8px;
-    font-size: 15px;
+
+    font-size: 14px;
     font-weight: bold;
+    font-family: inherit;
+
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -283,91 +458,265 @@ main a:hover {
     box-shadow: 0 8px 20px rgba(13, 148, 136, 0.25);
 }
 
-
-/* REGISTER LINK AND FOOTER */
-
 .register-link {
-    margin-top: 28px;
+    margin-top: 20px;
     text-align: center;
     font-size: 13px;
     color: #64748b;
 }
 
 .form-footer {
-    margin-top: 35px;
+    margin-top: 20px;
     text-align: center;
     font-size: 12px;
     color: #94a3b8;
 }
 
 
-/* RESPONSIVE DESIGN */
+/* =========================================
+   9. REGISTRATION FORM
+   TWO-COLUMN DESKTOP LAYOUT
+========================================= */
 
-@media (max-width: 900px) {
+.register-card {
+    max-width: 620px;
+    padding: 28px 32px;
+}
+
+.register-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 16px;
+    row-gap: 0;
+}
+
+.register-form .form-group {
+    margin-bottom: 14px;
+}
+
+/* Button occupies the full row */
+
+.register-form .login-button {
+    grid-column: 1 / -1;
+    margin-top: 3px;
+}
+
+/* Registration footer spacing */
+
+.register-card .register-link {
+    margin-top: 17px;
+}
+
+.register-card .form-footer {
+    margin-top: 15px;
+}
+
+
+/* =========================================
+   10. SHORT DESKTOP SCREEN ADJUSTMENTS
+========================================= */
+
+@media (max-height: 720px) and (min-width: 901px) {
+
     .login-banner {
-        width: 42%;
-        padding: 35px;
-    }
-
-    .login-form-section {
-        width: 58%;
+        padding-top: 25px;
+        padding-bottom: 25px;
     }
 
     .banner-content h1 {
-        font-size: 36px;
+        font-size: 38px;
+        margin-bottom: 15px;
+    }
+
+    .banner-description {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .login-form-section {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    .login-card {
+        padding: 25px;
+    }
+
+    .register-card {
+        padding: 19px 26px;
+    }
+
+    .register-card .form-heading {
+        margin-bottom: 15px;
+    }
+
+    .register-form .form-group {
+        margin-bottom: 9px;
+    }
+
+    .register-card .register-link,
+    .register-card .form-footer {
+        margin-top: 10px;
     }
 }
 
+
+/* =========================================
+   11. TABLET RESPONSIVENESS
+========================================= */
+
+@media (max-width: 900px) {
+
+    .login-banner {
+        width: 40%;
+        padding: 30px;
+    }
+
+    .login-form-section {
+        width: 60%;
+        padding: 25px 20px;
+    }
+
+    .banner-content h1 {
+        font-size: 34px;
+    }
+
+    .banner-description {
+        font-size: 14px;
+    }
+
+    .login-card {
+        padding: 26px 22px;
+    }
+
+    .register-card {
+        padding: 24px 22px;
+    }
+}
+
+
+/* =========================================
+   12. MOBILE RESPONSIVENESS
+========================================= */
+
 @media (max-width: 650px) {
+
+    /* Authentication layout becomes vertical */
+
     .login-container {
         flex-direction: column;
     }
 
+    /* Banner */
+
     .login-banner {
         width: 100%;
-        min-height: 280px;
+        min-height: auto;
         padding: 25px;
     }
 
     .banner-content {
-        margin: 40px 0;
+        margin: 30px 0 10px;
     }
 
     .banner-content h1 {
         font-size: 32px;
     }
 
+    .banner-description {
+        font-size: 14px;
+    }
+
     .banner-footer {
         display: none;
     }
 
+    /* Form section */
+
     .login-form-section {
         width: 100%;
         min-height: auto;
-        padding: 35px 20px;
+        padding: 25px 18px;
     }
 
-    .login-card {
-        padding: 28px 22px;
+    /* Cards */
+
+    .login-card,
+    .register-card {
+        width: 100%;
+        max-width: 480px;
+        padding: 25px 20px;
+    }
+
+    /* Registration becomes one column */
+
+    .register-form {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .register-form .login-button {
+        grid-column: auto;
+    }
+
+    .form-footer {
+        margin-top: 18px;
     }
 }
 
 
-/* Registration dropdown */
+/* =========================================
+   13. HOME PAGE RESPONSIVENESS
+========================================= */
 
-.form-group select {
-    width: 100%;
-    padding: 14px 15px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    outline: none;
-    background-color: #ffffff;
-    color: #334155;
-    font-size: 14px;
-    cursor: pointer;
+@media (max-width: 768px) {
+
+    .home-hero {
+        min-height: 540px;
+        padding: 70px 20px;
+    }
+
+    .hero-content h1 {
+        font-size: 38px;
+    }
+
+    .hero-description {
+        font-size: 16px;
+    }
 }
 
-.form-group select:focus {
-    border-color: #0d9488;
-    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
+@media (max-width: 480px) {
+
+    .hero-content h1 {
+        font-size: 32px;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+    }
+
+    .hero-button {
+        width: 100%;
+        max-width: 280px;
+    }
+}
+
+
+/* =========================================
+   14. NAVBAR RESPONSIVENESS
+========================================= */
+
+@media (max-width: 650px) {
+
+    .public-navbar {
+        padding: 18px 20px;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .navbar-links {
+        gap: 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 }
