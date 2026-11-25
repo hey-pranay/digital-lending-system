@@ -1,4 +1,3 @@
-
 package com.sprint.lending.security;
 
 import com.auth0.jwt.interfaces.Claim;
@@ -39,6 +38,12 @@ class SecurityConfigTest {
 
     @MockitoBean
     private AuthService authService;
+
+    @MockitoBean
+    private com.sprint.lending.service.AdminService adminService;
+
+    @MockitoBean
+    private com.sprint.lending.service.RepaymentService repaymentService;
 
     @BeforeEach
     void setUp() {
