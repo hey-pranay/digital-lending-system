@@ -7,13 +7,165 @@
   <title>My Loans | Digital Lending</title>
 
   <link rel="stylesheet" th:href="@{/css/style.css}">
+
+  <style>
+    /* Summary cards */
+    .loan-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 26px;
+    }
+
+    .loan-summary-card {
+      background: #ffffff;
+      padding: 22px;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+    }
+
+    .loan-summary-card span {
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .loan-summary-card h2 {
+      color: #0f172a;
+      font-size: 28px;
+      margin: 12px 0 0;
+    }
+
+    /* Table section */
+    .loans-table-section {
+      background: #ffffff;
+      padding: 25px;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+    }
+
+    .section-heading {
+      margin-bottom: 22px;
+    }
+
+    .section-heading h2 {
+      color: #0f172a;
+      font-size: 19px;
+      margin: 0 0 7px;
+    }
+
+    .section-heading p {
+      color: #64748b;
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .loans-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 750px;
+    }
+
+    .loans-table th {
+      background: #f8fafc;
+      color: #64748b;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: left;
+      padding: 15px 13px;
+      white-space: nowrap;
+    }
+
+    .loans-table td {
+      padding: 16px 13px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #334155;
+      font-size: 14px;
+    }
+
+    .loans-table tbody tr:hover {
+      background: #f8fafc;
+    }
+
+    .loan-id {
+      color: #0f766e;
+      font-weight: 700;
+    }
+
+    /* Status badges */
+    .status-badge {
+      display: inline-block;
+      padding: 6px 11px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .status-applied {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-approved {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-rejected {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .status-default {
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    .empty-table-message {
+      text-align: center;
+      padding: 35px !important;
+      color: #64748b !important;
+    }
+
+    .loan-message {
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+
+    .loan-message.error {
+      color: #dc2626;
+    }
+
+    @media (max-width: 1000px) {
+      .loan-summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 600px) {
+      .loan-summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .loans-table-section {
+        padding: 18px;
+      }
+    }
+  </style>
 </head>
 
 <body class="dashboard-page">
 
 <div class="dashboard-container">
 
-  <!-- Reusable Borrower Sidebar -->
+  <!-- Borrower Sidebar -->
   <div th:replace="~{fragments/common :: borrowerSidebar('loans')}"></div>
 
   <!-- Main Content -->
@@ -26,32 +178,32 @@
       </div>
     </header>
 
-    <!-- Loan Summary Cards -->
+    <!-- Loan Summary -->
     <section class="loan-summary-grid">
 
       <div class="loan-summary-card">
         <span>Total Loans</span>
-        <h2>0</h2>
+        <h2 id="totalLoans">0</h2>
       </div>
 
       <div class="loan-summary-card">
         <span>Approved Loans</span>
-        <h2>0</h2>
+        <h2 id="approvedLoans">0</h2>
       </div>
 
       <div class="loan-summary-card">
         <span>Pending Applications</span>
-        <h2>0</h2>
+        <h2 id="pendingLoans">0</h2>
       </div>
 
       <div class="loan-summary-card">
         <span>Rejected Applications</span>
-        <h2>0</h2>
+        <h2 id="rejectedLoans">0</h2>
       </div>
 
     </section>
 
-    <!-- Loans Table -->
+    <!-- Loan Applications Table -->
     <section class="loans-table-section">
 
       <div class="section-heading">
@@ -59,24 +211,28 @@
         <p>A summary of your submitted loan applications.</p>
       </div>
 
+      <div id="loanMessage" class="loan-message"></div>
+
       <div class="table-responsive">
 
         <table class="loans-table">
+
           <thead>
           <tr>
             <th>Loan ID</th>
             <th>Loan Amount</th>
             <th>Interest Rate</th>
             <th>Tenure</th>
+            <th>Monthly EMI</th>
             <th>Status</th>
-            <th>Action</th>
+            <th>Remarks</th>
           </tr>
           </thead>
 
-          <tbody>
+          <tbody id="loansTableBody">
           <tr>
-            <td colspan="6" class="empty-table-message">
-              No loan applications found.
+            <td colspan="7" class="empty-table-message">
+              Loading your loan applications...
             </td>
           </tr>
           </tbody>
@@ -90,6 +246,8 @@
   </main>
 
 </div>
+
+<script th:src="@{/js/borrower-loans.js}"></script>
 
 </body>
 </html>

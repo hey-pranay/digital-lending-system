@@ -2,6 +2,7 @@
 package com.sprint.lending.controller;
 
 import com.sprint.lending.dto.request.BorrowerProfileRequest;
+import com.sprint.lending.dto.response.BorrowerProfileResponse;
 import com.sprint.lending.service.BorrowerProfileService;
 
 import jakarta.validation.Valid;
@@ -36,4 +37,31 @@ public class BorrowerProfileController {
                 .status(HttpStatus.CREATED)
                 .body("Borrower profile created successfully");
     }
+
+    @GetMapping
+    public ResponseEntity<BorrowerProfileResponse> getProfile(
+            Authentication authentication) {
+
+        String email = authentication.getName();
+
+        BorrowerProfileResponse response =
+                borrowerProfileService.getProfile(email);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping
+    public ResponseEntity<BorrowerProfileResponse> updateProfile(
+            @Valid @RequestBody BorrowerProfileRequest request,
+            Authentication authentication) {
+
+        String email = authentication.getName();
+
+        BorrowerProfileResponse response =
+                borrowerProfileService.updateProfile(email, request);
+
+        return ResponseEntity.ok(response);
+    }
+
+
 }

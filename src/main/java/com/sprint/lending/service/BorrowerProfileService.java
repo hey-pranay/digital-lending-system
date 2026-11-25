@@ -2,6 +2,7 @@
 package com.sprint.lending.service;
 
 import com.sprint.lending.dto.request.BorrowerProfileRequest;
+import com.sprint.lending.dto.response.BorrowerProfileResponse;
 import com.sprint.lending.entity.BorrowerProfile;
 import com.sprint.lending.entity.Role;
 import com.sprint.lending.entity.User;
@@ -75,5 +76,54 @@ public class BorrowerProfileService {
 
         // Save profile
         borrowerProfileRepository.save(profile);
+    }
+
+
+    @Transactional(readOnly = true)
+    public BorrowerProfileResponse getProfile(String email) {
+
+        BorrowerProfile profile = borrowerProfileRepository
+                .findByUser_Email(email)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Borrower profile not found"
+                ));
+
+        return new BorrowerProfileResponse(
+                profile.getId(),
+                profile.getPhone(),
+                profile.getAddress(),
+                profile.getMonthlyIncome(),
+                profile.getEmploymentType()
+        );
+    }
+
+    @Transactional
+    public BorrowerProfileResponse updateProfile(
+            String email,
+            BorrowerProfileRequest request) {
+
+        BorrowerProfile profile = borrowerProfileRepository
+                .findByUser_Email(email)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Borrower profile not found"
+                ));
+
+        profile.setPhone(request.phone());
+        profile.setAddress(request.address());
+        profile.setMonthlyIncome(request.monthlyIncome());
+        profile.setEmploymentType(request.employmentType());
+
+        BorrowerProfile updatedProfile =
+                borrowerProfileRepository.save(profile);
+
+        return new BorrowerProfileResponse(
+                updatedProfile.getId(),
+                updatedProfile.getPhone(),
+                updatedProfile.getAddress(),
+                updatedProfile.getMonthlyIncome(),
+                updatedProfile.getEmploymentType()
+        );
     }
 }

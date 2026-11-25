@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -6,13 +7,222 @@
     <title>Apply for Loan | Digital Lending</title>
 
     <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        /* Main layout */
+        .application-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.5fr) minmax(300px, 0.9fr);
+            gap: 24px;
+            align-items: start;
+        }
+
+        .application-card,
+        .emi-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 26px;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.04);
+        }
+
+        .section-heading {
+            margin-bottom: 25px;
+        }
+
+        .section-heading h2 {
+            color: #0f172a;
+            font-size: 20px;
+            margin: 0 0 8px;
+        }
+
+        .section-heading p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Loan form */
+        .loan-application-form {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .loan-application-form .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .loan-application-form label {
+            color: #334155;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .loan-application-form input,
+        .loan-application-form select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            background: #ffffff;
+            color: #0f172a;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .loan-application-form input:focus,
+        .loan-application-form select:focus {
+            border-color: #0d9488;
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
+        }
+
+        .input-hint {
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .form-actions {
+            margin-top: 5px;
+        }
+
+        .loan-submit-button {
+            width: 100%;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 10px;
+            background: #0f766e;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .loan-submit-button:hover {
+            background: #115e59;
+        }
+
+        /* EMI estimation */
+        .emi-card {
+            background: linear-gradient(145deg, #0f766e, #134e4a);
+            color: #ffffff;
+            border: none;
+            overflow: hidden;
+        }
+
+        .emi-heading {
+            margin-bottom: 25px;
+        }
+
+        .emi-heading h2 {
+            font-size: 19px;
+            margin: 0 0 8px;
+        }
+
+        .emi-heading p {
+            color: #ccfbf1;
+            font-size: 13px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .emi-main {
+            padding: 22px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            margin-bottom: 22px;
+        }
+
+        .emi-main span {
+            color: #ccfbf1;
+            font-size: 13px;
+        }
+
+        .emi-main h2 {
+            font-size: 30px;
+            margin: 10px 0 0;
+            font-weight: 700;
+        }
+
+        .emi-details {
+            display: flex;
+            flex-direction: column;
+            gap: 17px;
+        }
+
+        .emi-detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 13px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.17);
+        }
+
+        .emi-detail-item span {
+            color: #ccfbf1;
+            font-size: 13px;
+        }
+
+        .emi-detail-item strong {
+            color: #ffffff;
+            font-size: 14px;
+            text-align: right;
+        }
+
+        .emi-disclaimer {
+            margin-top: 22px;
+            color: #ccfbf1;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* Messages */
+        .form-message {
+            font-size: 14px;
+        }
+
+        .form-message.success {
+            color: #15803d;
+        }
+
+        .form-message.error {
+            color: #dc2626;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .application-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .application-card,
+            .emi-card {
+                padding: 20px;
+            }
+
+            .emi-main h2 {
+                font-size: 25px;
+            }
+        }
+    </style>
 </head>
 
 <body class="dashboard-page">
 
 <div class="dashboard-container">
 
-    <!-- Reusable Borrower Sidebar -->
+    <!-- Borrower Sidebar -->
     <div th:replace="~{fragments/common :: borrowerSidebar('apply-loan')}"></div>
 
     <!-- Main Content -->
@@ -21,126 +231,87 @@
         <header class="dashboard-header">
             <div>
                 <h1>Apply for a Loan</h1>
-                <p>Fill in your loan requirements to get started.</p>
+                <p>Choose your loan amount and repayment period.</p>
             </div>
         </header>
 
-        <!-- Loan Application Form -->
+        <section class="application-layout">
 
-        <section class="application-section">
-
-            <div class="section-heading">
-                <h2>Loan Details</h2>
-                <p>Enter the amount and repayment period you are looking for.</p>
-            </div>
-
-
-            <form id="loanApplicationForm" class="loan-application-form">
-
-                <div class="form-group">
-                    <label for="loanAmount">Requested Loan Amount (₹)</label>
-
-                    <input
-                            type="number"
-                            id="loanAmount"
-                            name="amount"
-                            placeholder="Enter loan amount"
-                            min="10000"
-                            max="1000000"
-                            step="0.01"
-                            required>
-                </div>
-
-                <div class="form-group">
-                    <label for="tenureMonths">Loan Tenure</label>
-
-                    <select id="tenureMonths" name="tenureMonths" required>
-                        <option value="">Select loan tenure</option>
-                        <option value="3">3 Months</option>
-                        <option value="6">6 Months</option>
-                        <option value="9">9 Months</option>
-                        <option value="12">12 Months</option>
-                        <option value="18">18 Months</option>
-                        <option value="24">24 Months</option>
-                        <option value="36">36 Months</option>
-                        <option value="48">48 Months</option>
-                        <option value="60">60 Months</option>
-                    </select>
-                </div>
-
-                <div id="applicationMessage" class="form-message"></div>
-
-                <div class="form-actions full-width">
-                    <button type="submit" class="login-button">
-                        Submit Loan Application
-                    </button>
-                </div>
-
-                <input
-                        type="hidden"
-                        id="csrfToken"
-                        th:name="${_csrf.parameterName}"
-                        th:value="${_csrf.token}">
-
-            </form>
-
-            <!-- EMI Estimation Panel -->
-            <section class="emi-section">
+            <!-- Loan Application -->
+            <div class="application-card">
 
                 <div class="section-heading">
-                    <h2>EMI Estimation</h2>
-                    <p>Your estimated monthly repayment based on the selected loan details.</p>
+                    <h2>Loan Details</h2>
+                    <p>Enter the amount and repayment period you are looking for.</p>
                 </div>
 
-                <div class="emi-card">
+                <form id="loanApplicationForm" class="loan-application-form">
 
-                    <div class="emi-main">
-                        <span>Estimated Monthly EMI</span>
-                        <h2 id="monthlyEmi">₹0.00</h2>
+                    <div class="form-group">
+                        <label for="loanAmount">
+                            Requested Loan Amount (₹)
+                        </label>
+
+                        <input
+                                type="number"
+                                id="loanAmount"
+                                name="amount"
+                                placeholder="e.g. 50000"
+                                min="10000"
+                                max="1000000"
+                                step="0.01"
+                                required>
+
+                        <span class="input-hint">
+                            Minimum ₹10,000 · Maximum ₹10,00,000
+                        </span>
                     </div>
 
-                    <div class="emi-details">
+                    <div class="form-group">
+                        <label for="tenureMonths">Loan Tenure</label>
 
-                        <div class="emi-detail-item">
-                            <span>Principal Amount</span>
-                            <strong id="principalAmount">₹0.00</strong>
-                        </div>
-
-                        <div class="emi-detail-item">
-                            <span>Interest Rate (Annual)</span>
-                            <strong id="interestRate">12%</strong>
-                        </div>
-
-                        <div class="emi-detail-item">
-                            <span>Total Interest</span>
-                            <strong id="totalInterest">₹0.00</strong>
-                        </div>
-
-                        <div class="emi-detail-item">
-                            <span>Total Repayment</span>
-                            <strong id="totalRepayment">₹0.00</strong>
-                        </div>
-
+                        <select id="tenureMonths" name="tenureMonths" required>
+                            <option value="">Select loan tenure</option>
+                            <option value="3">3 Months</option>
+                            <option value="6">6 Months</option>
+                            <option value="9">9 Months</option>
+                            <option value="12">12 Months</option>
+                            <option value="18">18 Months</option>
+                            <option value="24">24 Months</option>
+                            <option value="36">36 Months</option>
+                            <option value="48">48 Months</option>
+                            <option value="60">60 Months</option>
+                        </select>
                     </div>
 
-                    <p class="emi-disclaimer">
-                        * This is an estimated calculation. Actual EMI may vary based on
-                        the interest rate and loan terms approved by the lender.
-                    </p>
+                    <input
+                            type="hidden"
+                            id="csrfToken"
+                            th:name="${_csrf.parameterName}"
+                            th:value="${_csrf.token}">
 
-                </div>
+                    <div id="applicationMessage" class="form-message"></div>
 
-            </section>
+                    <div class="form-actions">
+                        <button type="submit"
+                                class="loan-submit-button">
+                            Submit Loan Application
+                        </button>
+                    </div>
 
+                </form>
+
+            </div>
+
+            <!-- EMI Estimation -->
 
         </section>
-
 
     </main>
 
 </div>
 
-
 <script th:src="@{/js/borrower-apply-loan.js}"></script>
+
 </body>
 </html>

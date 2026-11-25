@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -7,98 +8,121 @@
 
     <link rel="stylesheet" th:href="@{/css/style.css}">
 
-
     <style>
-        /* Profile section */
+        /* Main profile layout */
         .profile-section {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 28px;
-            box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
         }
 
-        /* Profile header */
-        .profile-header {
+        .profile-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.04);
+        }
+
+        /* Profile identity */
+        .profile-identity {
             display: flex;
             align-items: center;
-            gap: 18px;
-            flex-wrap: wrap;
+            gap: 20px;
         }
 
         .profile-avatar {
-            width: 64px;
-            height: 64px;
+            width: 82px;
+            height: 82px;
+            min-width: 82px;
             border-radius: 50%;
-            background: #e0f2f1;
-            color: #0f766e;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 26px;
+            background: linear-gradient(135deg, #0f766e, #14b8a6);
+            color: #ffffff;
+            font-size: 30px;
             font-weight: 700;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 14px rgba(15, 118, 110, 0.2);
         }
 
         .profile-heading h2 {
-            margin: 0 0 6px;
+            margin: 0 0 7px;
             color: #0f172a;
+            font-size: 23px;
         }
 
         .profile-heading p {
-            margin: 0;
+            margin: 0 0 9px;
             color: #64748b;
             font-size: 14px;
         }
 
-        .profile-divider {
-            height: 1px;
-            background: #e2e8f0;
-            margin: 26px 0;
+        .profile-role {
+            display: inline-block;
+            padding: 5px 11px;
+            background: #ccfbf1;
+            color: #0f766e;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
         }
 
-        /* Section headings */
-        .profile-details-section h3 {
-            font-size: 18px;
-            color: #0f172a;
-            margin-bottom: 8px;
-        }
-
-        .profile-details-section > p {
-            color: #64748b;
-            font-size: 14px;
+        /* Section heading */
+        .section-heading {
             margin-bottom: 22px;
         }
 
-        /* Details grid */
+        .section-heading h3 {
+            margin: 0 0 7px;
+            color: #0f172a;
+            font-size: 18px;
+        }
+
+        .section-heading p {
+            margin: 0;
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Personal information */
+        .personal-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .info-item {
+            padding: 17px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+        }
+
+        .info-item span {
+            display: block;
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .info-item strong {
+            color: #0f172a;
+            font-size: 15px;
+            overflow-wrap: anywhere;
+        }
+
+        /* Form */
+        #borrowerProfileForm {
+            margin-top: 5px;
+        }
+
         .profile-details-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 22px;
-            margin-top: 20px;
-        }
-
-        .profile-detail {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding: 16px;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-        }
-
-        .profile-detail span {
-            color: #64748b;
-            font-size: 13px;
-        }
-
-        .profile-detail strong {
-            color: #0f172a;
-            font-size: 15px;
-        }
-
-        /* Form fields */
-        #borrowerProfileForm {
-            margin-top: 24px;
+            gap: 20px;
         }
 
         #borrowerProfileForm .form-group {
@@ -118,19 +142,19 @@
         #borrowerProfileForm textarea {
             width: 100%;
             box-sizing: border-box;
-            padding: 12px 14px;
+            padding: 13px 14px;
             border: 1px solid #cbd5e1;
-            border-radius: 9px;
+            border-radius: 10px;
             background: #ffffff;
             color: #0f172a;
             font-family: inherit;
             font-size: 14px;
             outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            transition: 0.2s;
         }
 
         #borrowerProfileForm textarea {
-            min-height: 90px;
+            min-height: 95px;
             resize: vertical;
         }
 
@@ -141,23 +165,63 @@
             box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
         }
 
-        #borrowerProfileForm .login-button {
-            margin-top: 22px;
-            padding: 12px 24px;
+        #borrowerProfileForm input:disabled,
+        #borrowerProfileForm select:disabled,
+        #borrowerProfileForm textarea:disabled {
+            background: #f1f5f9;
+            color: #475569;
+            cursor: not-allowed;
+            opacity: 1;
+        }
+
+        /* Form header */
+        .profile-form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .profile-form-header h3 {
+            margin: 0 0 7px;
+            color: #0f172a;
+            font-size: 18px;
+        }
+
+        .profile-form-header p {
+            margin: 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* Buttons */
+        .profile-action-button {
+            padding: 11px 22px;
             border: none;
             border-radius: 9px;
             background: #0f766e;
             color: #ffffff;
             font-weight: 600;
+            font-size: 14px;
             cursor: pointer;
             transition: background 0.2s;
         }
 
-        #borrowerProfileForm .login-button:hover {
+        .profile-action-button:hover {
             background: #115e59;
         }
 
-        /* Success and error messages */
+        #editProfileButton {
+            margin-top: 0;
+        }
+
+        #borrowerProfileForm .profile-action-button {
+            margin-top: 24px;
+        }
+
+        /* Messages */
         .form-message {
             margin-top: 16px;
             font-size: 14px;
@@ -171,30 +235,42 @@
             color: #dc2626;
         }
 
-        /* Responsive layout */
+        /* Responsive */
         @media (max-width: 768px) {
-            .profile-section {
-                padding: 18px;
+            .profile-card {
+                padding: 20px;
             }
 
+            .personal-info-grid,
             .profile-details-grid {
                 grid-template-columns: 1fr;
-                gap: 16px;
+                gap: 15px;
             }
 
-            #borrowerProfileForm .login-button {
+            .profile-avatar {
+                width: 68px;
+                height: 68px;
+                min-width: 68px;
+                font-size: 25px;
+            }
+
+            .profile-heading h2 {
+                font-size: 19px;
+            }
+
+            #editProfileButton,
+            #borrowerProfileForm .profile-action-button {
                 width: 100%;
             }
         }
     </style>
-
 </head>
 
 <body class="dashboard-page">
 
 <div class="dashboard-container">
 
-    <!-- Reusable Borrower Sidebar -->
+    <!-- Borrower Sidebar -->
     <div th:replace="~{fragments/common :: borrowerSidebar('profile')}"></div>
 
     <!-- Main Content -->
@@ -203,119 +279,131 @@
         <header class="dashboard-header">
             <div>
                 <h1>My Profile</h1>
-                <p>View and manage your personal information.</p>
+                <p>Manage your personal and employment information.</p>
             </div>
         </header>
 
-        <!-- Profile Information -->
         <section class="profile-section">
 
-            <div class="profile-header">
-                <div class="profile-avatar"
-                     th:text="${#strings.substring(user.name, 0, 1).toUpperCase()}">
-                    B
+            <!-- Profile Identity Card -->
+            <div class="profile-card">
+
+                <div class="profile-identity">
+
+                    <div class="profile-avatar"
+                         id="profileAvatar"
+                         th:text="${#strings.substring(user.name, 0, 1).toUpperCase()}">
+                        P
+                    </div>
+
+                    <div class="profile-heading">
+                        <h2 th:text="${user.name}">Borrower Name</h2>
+
+                        <p th:text="${user.email}">
+                            borrower@example.com
+                        </p>
+
+                        <span class="profile-role">BORROWER</span>
+                    </div>
+
                 </div>
 
-                <div class="profile-heading">
-                    <h2 th:text="${user.name}">Borrower Name</h2>
-                    <p th:text="${user.role}">Borrower Account</p>
-                </div>
-
-<!--                <button type="button" class="edit-profile-button">-->
-<!--                    Edit Profile-->
-<!--                </button>-->
             </div>
 
-            <div class="profile-divider"></div>
+            <!-- Personal Information -->
+            <div class="profile-card">
 
-            <!-- Personal Details -->
-            <div class="profile-details-section">
+                <div class="section-heading">
+                    <h3>Personal Information</h3>
+                    <p>Your registered account information.</p>
+                </div>
 
-                <h3>Personal Information</h3>
+                <div class="personal-info-grid">
 
-                <div class="profile-details-grid">
-
-                    <div class="profile-detail">
+                    <div class="info-item">
                         <span>Full Name</span>
                         <strong th:text="${user.name}">Borrower Name</strong>
                     </div>
 
-                    <div class="profile-detail">
+                    <div class="info-item">
                         <span>Email Address</span>
-                        <strong th:text="${user.email}">borrower@example.com</strong>
+                        <strong th:text="${user.email}">
+                            borrower@example.com
+                        </strong>
                     </div>
-
 
                 </div>
 
             </div>
 
-            <div class="profile-divider"></div>
+            <!-- Borrower Profile Form -->
+            <div class="profile-card">
 
-            <!-- Employment Details -->
+                <div class="profile-form-header">
+                    <div>
+                        <h3 id="profileFormTitle">
+                            Complete Your Borrower Profile
+                        </h3>
 
-            <div class="profile-details-section">
+                        <p id="profileFormDescription">
+                            Provide these details before applying for a loan.
+                        </p>
+                    </div>
 
-                <h3>Complete Your Borrower Profile</h3>
-
-                <p>Provide these details before applying for a loan.</p>
+                    <button type="button"
+                            id="editProfileButton"
+                            class="profile-action-button"
+                            style="display: none;">
+                        Edit Profile
+                    </button>
+                </div>
 
                 <form id="borrowerProfileForm" method="post">
 
                     <!-- CSRF Token -->
-                    <input
-                            type="hidden"
-                            id="csrfToken"
-                            th:name="${_csrf.parameterName}"
-                            th:value="${_csrf.token}">
+                    <input type="hidden"
+                           id="csrfToken"
+                           th:name="${_csrf.parameterName}"
+                           th:value="${_csrf.token}">
 
                     <div class="profile-details-grid">
 
-                        <!-- Phone -->
                         <div class="form-group">
                             <label for="phone">Phone Number</label>
-                            <input
-                                    type="tel"
-                                    id="phone"
-                                    name="phone"
-                                    placeholder="Enter phone number"
-                                    pattern="[0-9+()\- ]{7,15}"
-                                    maxlength="15"
-                                    required>
+                            <input type="tel"
+                                   id="phone"
+                                   name="phone"
+                                   placeholder="Enter phone number"
+                                   pattern="[0-9+()\- ]{7,15}"
+                                   maxlength="15"
+                                   required>
                         </div>
 
-                        <!-- Address -->
                         <div class="form-group">
                             <label for="address">Address</label>
-                            <textarea
-                                    id="address"
-                                    name="address"
-                                    placeholder="Enter your address"
-                                    maxlength="255"
-                                    required></textarea>
+                            <textarea id="address"
+                                      name="address"
+                                      placeholder="Enter your address"
+                                      maxlength="255"
+                                      required></textarea>
                         </div>
 
-                        <!-- Monthly Income -->
                         <div class="form-group">
                             <label for="monthlyIncome">Monthly Income (₹)</label>
-                            <input
-                                    type="number"
-                                    id="monthlyIncome"
-                                    name="monthlyIncome"
-                                    placeholder="Enter monthly income"
-                                    min="0.01"
-                                    step="0.01"
-                                    required>
+                            <input type="number"
+                                   id="monthlyIncome"
+                                   name="monthlyIncome"
+                                   placeholder="Enter monthly income"
+                                   min="0.01"
+                                   step="0.01"
+                                   required>
                         </div>
 
-                        <!-- Employment Type -->
                         <div class="form-group">
                             <label for="employmentType">Employment Type</label>
-                            <select
-                                    id="employmentType"
+                            <select id="employmentType"
                                     name="employmentType"
                                     required>
-
                                 <option value="">Select employment type</option>
                                 <option value="SALARIED">Salaried</option>
                                 <option value="SELF_EMPLOYED">Self Employed</option>
@@ -323,7 +411,6 @@
                                 <option value="STUDENT">Student</option>
                                 <option value="UNEMPLOYED">Unemployed</option>
                                 <option value="OTHER">Other</option>
-
                             </select>
                         </div>
 
@@ -331,14 +418,15 @@
 
                     <div id="profileMessage" class="form-message"></div>
 
-                    <button type="submit" class="login-button">
-                        Save Borrower Profile
+                    <button type="submit"
+                            id="profileSubmitButton"
+                            class="profile-action-button">
+                        Save Profile
                     </button>
 
                 </form>
 
             </div>
-
 
         </section>
 
@@ -347,5 +435,6 @@
 </div>
 
 <script th:src="@{/js/borrower-profile.js}"></script>
+
 </body>
 </html>
