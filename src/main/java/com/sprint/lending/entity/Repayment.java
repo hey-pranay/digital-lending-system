@@ -2,23 +2,49 @@
 package com.sprint.lending.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Min;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
+@Table(
+        name = "repayments",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        columnNames = {"loan_id", "instalment_number"}
+                )
+        }
+)
 public class Repayment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @DecimalMin("0.01")
+    @Digits(integer = 10, fraction = 2)
+    @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal amount;
 
+    @NotNull
+    @Min(1)
+    @Column(nullable = false)
+    private Integer instalmentNumber;
+
+    @NotNull
+    @Column(nullable = false)
     private LocalDate dueDate;
 
     private LocalDate paymentDate;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
     private RepaymentStatus status;
 
     @ManyToOne
@@ -31,16 +57,20 @@ public class Repayment {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public BigDecimal getAmount() {
         return amount;
     }
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public Integer getInstalmentNumber() {
+        return instalmentNumber;
+    }
+
+    public void setInstalmentNumber(Integer instalmentNumber) {
+        this.instalmentNumber = instalmentNumber;
     }
 
     public LocalDate getDueDate() {

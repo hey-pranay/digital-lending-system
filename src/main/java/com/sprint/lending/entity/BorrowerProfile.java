@@ -1,28 +1,53 @@
+
 package com.sprint.lending.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
-import java.math.BigDecimal;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Pattern;
+
+import java.math.BigDecimal;
 
 @Entity
+@Table(name = "borrower_profiles")
 public class BorrowerProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Size(max = 15)
+    @Pattern(regexp = "^[0-9+()\\- ]{7,15}$")
+    @Column(nullable = false, length = 15)
     private String phone;
 
+    @NotBlank
+    @Size(max = 255)
+    @Column(nullable = false, length = 255)
     private String address;
 
+    @NotNull
+    @DecimalMin("0.00")
+    @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal monthlyIncome;
 
-    private String employmentType;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
+    private EmploymentType employmentType;
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false, unique = true)
@@ -30,10 +55,6 @@ public class BorrowerProfile {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getPhone() {
@@ -60,11 +81,11 @@ public class BorrowerProfile {
         this.monthlyIncome = monthlyIncome;
     }
 
-    public String getEmploymentType() {
+    public EmploymentType getEmploymentType() {
         return employmentType;
     }
 
-    public void setEmploymentType(String employmentType) {
+    public void setEmploymentType(EmploymentType employmentType) {
         this.employmentType = employmentType;
     }
 
