@@ -21,6 +21,9 @@ public class Loan {
     @Column(nullable = false)
     private LoanStatus status;
 
+    @Column(length = 500)
+    private String rejectionRemarks;
+
     @ManyToOne
     @JoinColumn(name = "borrower_profile_id", nullable = false)
     private BorrowerProfile borrowerProfile;
@@ -73,5 +76,13 @@ public class Loan {
 
     public void setBorrowerProfile(BorrowerProfile borrowerProfile) {
         this.borrowerProfile = borrowerProfile;
+    }
+
+    public String getRejectionRemarks() {
+        return rejectionRemarks;
+    }
+
+    public void setRejectionRemarks(String rejectionRemarks) {
+        this.rejectionRemarks = rejectionRemarks;
     }
 }

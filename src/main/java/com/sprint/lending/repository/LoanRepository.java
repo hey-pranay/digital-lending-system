@@ -1,8 +1,11 @@
 package com.sprint.lending.repository;
 
 import com.sprint.lending.entity.Loan;
+import com.sprint.lending.entity.LoanStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LoanRepository extends JpaRepository<Loan, Long> {
+import java.util.List;
 
+public interface LoanRepository extends JpaRepository<Loan, Long> {
+    List<Loan> findByStatus(LoanStatus status);
 }
