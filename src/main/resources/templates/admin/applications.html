@@ -35,22 +35,22 @@
 
                 <div class="summary-card">
                     <p>Total Applications</p>
-                    <h2>0</h2>
+                    <h2 id="totalApplications">0</h2>
                 </div>
 
                 <div class="summary-card">
                     <p>Pending</p>
-                    <h2>0</h2>
+                    <h2 id="pendingApplications">0</h2>
                 </div>
 
                 <div class="summary-card">
                     <p>Approved</p>
-                    <h2>0</h2>
+                    <h2 id="approvedApplications">0</h2>
                 </div>
 
                 <div class="summary-card">
                     <p>Rejected</p>
-                    <h2>0</h2>
+                    <h2 id="rejectedApplications">0</h2>
                 </div>
 
             </div>
@@ -73,16 +73,15 @@
                         <th>Borrower</th>
                         <th>Loan Amount</th>
                         <th>Tenure</th>
-                        <th>Applied On</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
                     </thead>
 
-                    <tbody>
+                    <tbody id="applicationsTableBody">
                     <tr>
-                        <td colspan="7" class="empty-table-message">
-                            No loan applications found.
+                        <td colspan="6" class="empty-table-message">
+                            Loading applications...
                         </td>
                     </tr>
                     </tbody>
@@ -96,5 +95,7 @@
 
 </div>
 
+
+<script th:src="@{/js/admin-applications.js}"></script>
 </body>
 </html>
