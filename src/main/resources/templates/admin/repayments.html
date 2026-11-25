@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repayments | Digital Lending</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="dashboard-page">
+
+<div class="dashboard-container">
+
+    <!-- Admin Sidebar -->
+    <aside th:replace="~{fragments/common :: adminSidebar('repayments')}"></aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+
+        <header class="dashboard-header">
+            <div>
+                <h1>Repayment Monitoring</h1>
+                <p>Monitor borrower instalments and repayment activities.</p>
+            </div>
+
+            <div class="dashboard-user">
+                <div class="user-avatar">A</div>
+                <span>Administrator</span>
+            </div>
+        </header>
+
+        <!-- Repayment Summary -->
+        <section class="dashboard-section">
+            <div class="summary-grid">
+
+                <div class="summary-card">
+                    <p>Total Instalments</p>
+                    <h2>0</h2>
+                </div>
+
+                <div class="summary-card">
+                    <p>Paid Instalments</p>
+                    <h2>0</h2>
+                </div>
+
+                <div class="summary-card">
+                    <p>Pending Instalments</p>
+                    <h2>0</h2>
+                </div>
+
+                <div class="summary-card">
+                    <p>Overdue Instalments</p>
+                    <h2>0</h2>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Financial Summary -->
+        <section class="dashboard-section">
+            <h2>Collection Overview</h2>
+
+            <div class="summary-grid">
+
+                <div class="summary-card">
+                    <p>Total Expected Amount</p>
+                    <h2>₹0.00</h2>
+                </div>
+
+                <div class="summary-card">
+                    <p>Total Collected Amount</p>
+                    <h2>₹0.00</h2>
+                </div>
+
+                <div class="summary-card">
+                    <p>Pending Collection</p>
+                    <h2>₹0.00</h2>
+                </div>
+
+                <div class="summary-card">
+                    <p>Overdue Amount</p>
+                    <h2>₹0.00</h2>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Repayment Table -->
+        <section class="repayment-table-section">
+
+            <div class="section-heading">
+                <h2>All Repayment Records</h2>
+                <p>Track instalment payments across all borrowers.</p>
+            </div>
+
+            <div class="table-responsive">
+                <table class="repayment-table">
+
+                    <thead>
+                    <tr>
+                        <th>Instalment ID</th>
+                        <th>Loan ID</th>
+                        <th>Borrower</th>
+                        <th>Due Date</th>
+                        <th>Amount</th>
+                        <th>Payment Date</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td colspan="7" class="empty-table-message">
+                            No repayment records found.
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

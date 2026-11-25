@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Loans | Digital Lending</title>
+
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="dashboard-page">
+
+<div class="dashboard-container">
+
+  <!-- Reusable Borrower Sidebar -->
+  <div th:replace="~{fragments/common :: borrowerSidebar('loans')}"></div>
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+
+    <header class="dashboard-header">
+      <div>
+        <h1>My Loans</h1>
+        <p>View and track all your loan applications.</p>
+      </div>
+    </header>
+
+    <!-- Loan Summary Cards -->
+    <section class="loan-summary-grid">
+
+      <div class="loan-summary-card">
+        <span>Total Loans</span>
+        <h2>0</h2>
+      </div>
+
+      <div class="loan-summary-card">
+        <span>Approved Loans</span>
+        <h2>0</h2>
+      </div>
+
+      <div class="loan-summary-card">
+        <span>Pending Applications</span>
+        <h2>0</h2>
+      </div>
+
+      <div class="loan-summary-card">
+        <span>Rejected Applications</span>
+        <h2>0</h2>
+      </div>
+
+    </section>
+
+    <!-- Loans Table -->
+    <section class="loans-table-section">
+
+      <div class="section-heading">
+        <h2>Loan Applications</h2>
+        <p>A summary of your submitted loan applications.</p>
+      </div>
+
+      <div class="table-responsive">
+
+        <table class="loans-table">
+          <thead>
+          <tr>
+            <th>Loan ID</th>
+            <th>Loan Amount</th>
+            <th>Interest Rate</th>
+            <th>Tenure</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <tr>
+            <td colspan="6" class="empty-table-message">
+              No loan applications found.
+            </td>
+          </tr>
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+</body>
+</html>

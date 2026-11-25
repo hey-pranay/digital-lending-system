@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repayment History | Digital Lending</title>
+
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="dashboard-page">
+
+<div class="dashboard-container">
+
+  <!-- Reusable Borrower Sidebar -->
+  <div th:replace="~{fragments/common :: borrowerSidebar('repayments')}"></div>
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+
+    <header class="dashboard-header">
+      <div>
+        <h1>Repayment History</h1>
+        <p>Track your instalments and repayment status.</p>
+      </div>
+    </header>
+
+    <!-- Repayment Summary -->
+    <section class="repayment-summary-grid">
+
+      <div class="repayment-summary-card">
+        <span>Total Instalments</span>
+        <h2>0</h2>
+      </div>
+
+      <div class="repayment-summary-card">
+        <span>Paid Instalments</span>
+        <h2>0</h2>
+      </div>
+
+      <div class="repayment-summary-card">
+        <span>Pending Instalments</span>
+        <h2>0</h2>
+      </div>
+
+      <div class="repayment-summary-card">
+        <span>Overdue Instalments</span>
+        <h2>0</h2>
+      </div>
+
+    </section>
+
+    <!-- Repayment Table -->
+    <section class="repayment-table-section">
+
+      <div class="section-heading">
+        <h2>Instalment Details</h2>
+        <p>View your payment schedule and transaction history.</p>
+      </div>
+
+      <div class="table-responsive">
+
+        <table class="repayment-table">
+
+          <thead>
+          <tr>
+            <th>Instalment ID</th>
+            <th>Loan ID</th>
+            <th>Due Date</th>
+            <th>Amount</th>
+            <th>Payment Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <tr>
+            <td colspan="7" class="empty-table-message">
+              No repayment records found.
+            </td>
+          </tr>
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+</body>
+</html>

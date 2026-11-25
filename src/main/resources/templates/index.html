@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Digital Lending System</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<!-- Reusable Navigation -->
+<div th:replace="~{fragments/common :: publicNavbar}"></div>
+
+
+<main class="home-hero">
+    <div class="hero-content">
+
+        <span class="hero-tagline">
+            SMARTER BORROWING. SIMPLER FINANCING.
+        </span>
+
+        <h1>
+            Your Financial Goals,
+            <span>Our Lending Solutions.</span>
+        </h1>
+
+        <p class="hero-description">
+            Manage your loans with confidence. Apply online, track your
+            application status, monitor your EMI schedule, and stay
+            in control of your repayments.
+        </p>
+
+        <div class="hero-actions">
+            <a th:href="@{/register}"
+               class="hero-button hero-button-primary">
+                Get Started
+            </a>
+
+            <a th:href="@{/login}"
+               class="hero-button hero-button-secondary">
+                Sign In
+            </a>
+        </div>
+
+    </div>
+</main>
+
+
+<!-- Reusable Footer -->
+<div th:replace="~{fragments/common :: pageFooter}"></div>
+
+</body>
+</html>

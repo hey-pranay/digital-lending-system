@@ -1,8 +1,8 @@
 
 package com.sprint.lending.security;
 
-
 import jakarta.servlet.DispatcherType;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,78 +11,101 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import static org.springframework.web.servlet.function.RequestPredicates.headers;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
-    public JwtFilter jwtFilter(JwtUtil jwtUtil) {
-        return new JwtFilter(jwtUtil);
-    }
-
-    @Bean
     public SecurityFilterChain securityFilterChain(
-            HttpSecurity http,
-            JwtFilter jwtFilter) throws Exception {
+            HttpSecurity http) throws Exception {
 
         http
-                // Disable CSRF for our stateless REST APIs
-                .csrf(csrf -> csrf.disable())
+                // Enable CSRF protection
+                .csrf(csrf -> {
+                })
 
                 // Configure endpoint authorization
                 .authorizeHttpRequests(auth -> auth
 
-                        // Allow error dispatches so original error status is preserved
-                        .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
+                        .dispatcherTypeMatchers(DispatcherType.ERROR)
+                        .permitAll()
 
-                        // Public endpoints
+                        // Public pages and resources
                         .requestMatchers(
+                                "/",
+                                "/login",
+                                "/register",
+                                "/css/**",
+                                "/js/**",
+                                "/images/**",
+                                "/error",
                                 "/api/auth/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**"
                         ).permitAll()
 
-                        // Admin endpoints
-                        .requestMatchers("/api/admin/**")
-                        .hasRole("ADMIN")
+                        // Admin pages and APIs
+                        .requestMatchers(
+                                "/admin/**",
+                                "/api/admin/**"
+                        ).hasRole("ADMIN")
 
-                        // Borrower endpoints
-                        .requestMatchers("/api/borrower/**")
-                        .hasRole("BORROWER")
+                        // Borrower pages and APIs
+                        .requestMatchers(
+                                "/borrower/**",
+                                "/api/borrower/**"
+                        ).hasRole("BORROWER")
 
-                        // All remaining endpoints require authentication
                         .anyRequest().authenticated()
                 )
 
-                // Disable default authentication mechanisms
-                .formLogin(form -> form.disable())
-                .httpBasic(basic -> basic.disable())
+                // Configure custom login page
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .usernameParameter("email")
+                        .passwordParameter("password")
+                        .successHandler((request, response, authentication) -> {
 
-                // Stateless authentication
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(
-                                SessionCreationPolicy.STATELESS
+                            boolean isAdmin = authentication.getAuthorities()
+                                    .stream()
+                                    .anyMatch(authority ->
+                                            authority.getAuthority().equals("ROLE_ADMIN"));
+
+                            if (isAdmin) {
+                                response.sendRedirect("/admin/dashboard");
+                            } else {
+                                response.sendRedirect("/borrower/dashboard");
+                            }
+                        })
+                        .failureUrl("/login?error")
+                        .permitAll()
+                )
+
+                // Configure logout
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                )
+
+                // Enable session-based authentication
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(
+                                SessionCreationPolicy.IF_REQUIRED
                         )
                 )
 
-                // Return HTTP 401 instead of redirecting to login
-                .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint((request, response, ex) ->
-                                response.sendError(401, "Unauthorized")
-                        )
-                        .accessDeniedHandler((request, response, ex) ->
-                                response.sendError(403, "Forbidden")
-                        )
-                )
-
-                // Register JWT filter before username/password filter
-                .addFilterBefore(
-                        jwtFilter,
-                        UsernamePasswordAuthenticationFilter.class
+                .headers(headers -> headers
+                        .cacheControl(cache -> {
+                        })
                 );
+
 
         return http.build();
     }

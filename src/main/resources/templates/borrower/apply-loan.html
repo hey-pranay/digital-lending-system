@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Loan | Digital Lending</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="dashboard-page">
+
+<div class="dashboard-container">
+
+    <!-- Reusable Borrower Sidebar -->
+    <div th:replace="~{fragments/common :: borrowerSidebar('apply-loan')}"></div>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+
+        <header class="dashboard-header">
+            <div>
+                <h1>Apply for a Loan</h1>
+                <p>Fill in your loan requirements to get started.</p>
+            </div>
+        </header>
+
+        <!-- Loan Application Form -->
+
+        <section class="application-section">
+
+            <div class="section-heading">
+                <h2>Loan Details</h2>
+                <p>Enter the amount and repayment period you are looking for.</p>
+            </div>
+
+            <form class="loan-application-form" action="#" method="post">
+
+                <div class="form-group">
+                    <label for="loanAmount">Requested Loan Amount (₹)</label>
+                    <input
+                            type="number"
+                            id="loanAmount"
+                            name="loanAmount"
+                            placeholder="Enter loan amount"
+                            min="1000"
+                            required>
+                </div>
+
+                <div class="form-group">
+                    <label for="tenureMonths">Loan Tenure</label>
+                    <select id="tenureMonths" name="tenureMonths" required>
+                        <option value="">Select loan tenure</option>
+                        <option value="6">6 Months</option>
+                        <option value="12">12 Months</option>
+                        <option value="18">18 Months</option>
+                        <option value="24">24 Months</option>
+                        <option value="36">36 Months</option>
+                        <option value="48">48 Months</option>
+                        <option value="60">60 Months</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="purpose">Loan Purpose</label>
+                    <select id="purpose" name="purpose" required>
+                        <option value="">Select loan purpose</option>
+                        <option value="Education">Education</option>
+                        <option value="Medical">Medical Expenses</option>
+                        <option value="Home">Home Improvement</option>
+                        <option value="Personal">Personal Expenses</option>
+                        <option value="Business">Business</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="monthlyIncome">Monthly Income (₹)</label>
+                    <input
+                            type="number"
+                            id="monthlyIncome"
+                            name="monthlyIncome"
+                            placeholder="Enter monthly income"
+                            min="1"
+                            required>
+                </div>
+
+                <div class="form-group">
+                    <label for="employmentType">Employment Type</label>
+                    <select id="employmentType" name="employmentType" required>
+                        <option value="">Select employment type</option>
+                        <option value="SALARIED">Salaried</option>
+                        <option value="SELF_EMPLOYED">Self Employed</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="remarks">Additional Details (Optional)</label>
+                    <textarea
+                            id="remarks"
+                            name="remarks"
+                            rows="3"
+                            placeholder="Tell us anything else about your loan requirement"></textarea>
+                </div>
+
+                <div class="form-actions full-width">
+                    <button type="submit" class="login-button">
+                        Submit Loan Application
+                    </button>
+                </div>
+
+            </form>
+
+
+            <!-- EMI Estimation Panel -->
+            <section class="emi-section">
+
+                <div class="section-heading">
+                    <h2>EMI Estimation</h2>
+                    <p>Your estimated monthly repayment based on the selected loan details.</p>
+                </div>
+
+                <div class="emi-card">
+
+                    <div class="emi-main">
+                        <span>Estimated Monthly EMI</span>
+                        <h2 id="monthlyEmi">₹0.00</h2>
+                    </div>
+
+                    <div class="emi-details">
+
+                        <div class="emi-detail-item">
+                            <span>Principal Amount</span>
+                            <strong id="principalAmount">₹0.00</strong>
+                        </div>
+
+                        <div class="emi-detail-item">
+                            <span>Interest Rate (Annual)</span>
+                            <strong id="interestRate">12%</strong>
+                        </div>
+
+                        <div class="emi-detail-item">
+                            <span>Total Interest</span>
+                            <strong id="totalInterest">₹0.00</strong>
+                        </div>
+
+                        <div class="emi-detail-item">
+                            <span>Total Repayment</span>
+                            <strong id="totalRepayment">₹0.00</strong>
+                        </div>
+
+                    </div>
+
+                    <p class="emi-disclaimer">
+                        * This is an estimated calculation. Actual EMI may vary based on
+                        the interest rate and loan terms approved by the lender.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+        </section>
+
+
+    </main>
+
+</div>
+
+</body>
+</html>
