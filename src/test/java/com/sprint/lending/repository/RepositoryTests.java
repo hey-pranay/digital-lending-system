@@ -82,4 +82,70 @@ class RepositoryTests {
         assertEquals(savedProfile.getId(),
                 retrievedLoan.getBorrowerProfile().getId());
     }
+
+
+
+    @Test
+    void testSaveAndFindBorrowerProfile() {
+
+        // First create and save a user
+        User user = new User();
+        user.setName("Borrower Test");
+        user.setEmail("borrower.profile.test@example.com");
+        user.setPassword("temporary-test-password");
+        user.setRole(Role.BORROWER);
+
+        User savedUser = userRepository.save(user);
+
+        // Create borrower profile
+        BorrowerProfile profile = new BorrowerProfile();
+        profile.setPhone("9876543210");
+        profile.setAddress("Pune");
+        profile.setMonthlyIncome(new BigDecimal("50000.00"));
+        profile.setEmploymentType(EmploymentType.SALARIED);
+        profile.setUser(savedUser);
+
+        // Save profile
+        BorrowerProfile savedProfile =
+                borrowerProfileRepository.save(profile);
+
+        // Verify saved profile
+        assertNotNull(savedProfile.getId());
+
+        BorrowerProfile retrievedProfile =
+                borrowerProfileRepository.findById(savedProfile.getId()).orElse(null);
+
+        assertNotNull(retrievedProfile);
+        assertEquals("9876543210", retrievedProfile.getPhone());
+        assertEquals("Pune", retrievedProfile.getAddress());
+        assertEquals(new BigDecimal("50000.00"), retrievedProfile.getMonthlyIncome());
+        assertEquals(EmploymentType.SALARIED, retrievedProfile.getEmploymentType());
+
+        // Verify relationship with User
+        assertNotNull(retrievedProfile.getUser());
+        assertEquals(savedUser.getId(), retrievedProfile.getUser().getId());
+    }
+
+
+    @Test
+    void testSaveAndFindUser() {
+
+        User user = new User();
+        user.setName("Repository Test User");
+        user.setEmail("repository.test@example.com");
+        user.setPassword("temporary-test-password");
+        user.setRole(Role.BORROWER);
+
+        User savedUser = userRepository.save(user);
+
+        assertNotNull(savedUser.getId());
+
+        User retrievedUser =
+                userRepository.findById(savedUser.getId()).orElse(null);
+
+        assertNotNull(retrievedUser);
+        assertEquals("Repository Test User", retrievedUser.getName());
+        assertEquals("repository.test@example.com", retrievedUser.getEmail());
+        assertEquals(Role.BORROWER, retrievedUser.getRole());
+    }
 }
