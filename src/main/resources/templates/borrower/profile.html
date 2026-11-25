@@ -1,106 +1,91 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Profile | Digital Lending</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Digital Lending</title>
 
-  <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 <body class="dashboard-page">
 
 <div class="dashboard-container">
 
-  <!-- Reusable Borrower Sidebar -->
-  <div th:replace="~{fragments/common :: borrowerSidebar('profile')}"></div>
+    <!-- Reusable Borrower Sidebar -->
+    <div th:replace="~{fragments/common :: borrowerSidebar('profile')}"></div>
 
-  <!-- Main Content -->
-  <main class="dashboard-main">
+    <!-- Main Content -->
+    <main class="dashboard-main">
 
-    <header class="dashboard-header">
-      <div>
-        <h1>My Profile</h1>
-        <p>View and manage your personal information.</p>
-      </div>
-    </header>
+        <header class="dashboard-header">
+            <div>
+                <h1>My Profile</h1>
+                <p>View and manage your personal information.</p>
+            </div>
+        </header>
 
-    <!-- Profile Information -->
-    <section class="profile-section">
+        <!-- Profile Information -->
+        <section class="profile-section">
 
-      <div class="profile-header">
-        <div class="profile-avatar">B</div>
+            <div class="profile-header">
+                <div class="profile-avatar"
+                     th:text="${#strings.substring(user.name, 0, 1).toUpperCase()}">
+                    B
+                </div>
 
-        <div class="profile-heading">
-          <h2>Borrower Name</h2>
-          <p>Borrower Account</p>
-        </div>
+                <div class="profile-heading">
+                    <h2 th:text="${user.name}">Borrower Name</h2>
+                    <p th:text="${user.role}">Borrower Account</p>
+                </div>
 
-        <button type="button" class="edit-profile-button">
-          Edit Profile
-        </button>
-      </div>
+<!--                <button type="button" class="edit-profile-button">-->
+<!--                    Edit Profile-->
+<!--                </button>-->
+            </div>
 
-      <div class="profile-divider"></div>
+            <div class="profile-divider"></div>
 
-      <!-- Personal Details -->
-      <div class="profile-details-section">
+            <!-- Personal Details -->
+            <div class="profile-details-section">
 
-        <h3>Personal Information</h3>
+                <h3>Personal Information</h3>
 
-        <div class="profile-details-grid">
+                <div class="profile-details-grid">
 
-          <div class="profile-detail">
-            <span>Full Name</span>
-            <strong>Borrower Name</strong>
-          </div>
+                    <div class="profile-detail">
+                        <span>Full Name</span>
+                        <strong th:text="${user.name}">Borrower Name</strong>
+                    </div>
 
-          <div class="profile-detail">
-            <span>Email Address</span>
-            <strong>borrower@example.com</strong>
-          </div>
+                    <div class="profile-detail">
+                        <span>Email Address</span>
+                        <strong th:text="${user.email}">borrower@example.com</strong>
+                    </div>
 
-          <div class="profile-detail">
-            <span>Phone Number</span>
-            <strong>Not Provided</strong>
-          </div>
 
-          <div class="profile-detail">
-            <span>Address</span>
-            <strong>Not Provided</strong>
-          </div>
+                </div>
 
-        </div>
+            </div>
 
-      </div>
+            <div class="profile-divider"></div>
 
-      <div class="profile-divider"></div>
+            <!-- Employment Details -->
+            <div class="profile-details-section">
 
-      <!-- Employment Details -->
-      <div class="profile-details-section">
+                <h3>Employment Information</h3>
 
-        <h3>Employment Information</h3>
+                <div class="profile-details-grid">
 
-        <div class="profile-details-grid">
 
-          <div class="profile-detail">
-            <span>Monthly Income</span>
-            <strong>₹0.00</strong>
-          </div>
 
-          <div class="profile-detail">
-            <span>Employment Type</span>
-            <strong>Not Provided</strong>
-          </div>
+                </div>
 
-        </div>
+            </div>
 
-      </div>
+        </section>
 
-    </section>
-
-  </main>
+    </main>
 
 </div>
 

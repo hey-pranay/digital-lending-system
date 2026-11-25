@@ -24,8 +24,9 @@
       </div>
 
       <div class="dashboard-user">
-        <div class="user-avatar">A</div>
-        <span>Administrator</span>
+        <div class="user-avatar"
+             th:text="${#strings.substring(user.name, 0, 1).toUpperCase()}">A</div>
+        <span th:text="${user.name}">Administrator</span>
       </div>
     </header>
 
@@ -34,16 +35,17 @@
 
       <div class="profile-header">
 
-        <div class="profile-avatar">A</div>
+        <div class="profile-avatar"
+             th:text="${#strings.substring(user.name, 0, 1).toUpperCase()}">A</div>
 
         <div class="profile-heading">
-          <h2>Administrator Name</h2>
+          <h2 th:text="${user.name}">Administrator Name</h2>
           <p>System Administrator</p>
         </div>
 
-        <button type="button" class="edit-profile-button">
-          Edit Profile
-        </button>
+<!--        <button type="button" class="edit-profile-button">-->
+<!--          Edit Profile-->
+<!--        </button>-->
 
       </div>
 
@@ -58,22 +60,12 @@
 
           <div class="profile-detail">
             <label>Full Name</label>
-            <p>Administrator Name</p>
+            <p th:text="${user.name}">Administrator Name</p>
           </div>
 
           <div class="profile-detail">
             <label>Email Address</label>
-            <p>admin@example.com</p>
-          </div>
-
-          <div class="profile-detail">
-            <label>Phone Number</label>
-            <p>Not Provided</p>
-          </div>
-
-          <div class="profile-detail">
-            <label>Address</label>
-            <p>Not Provided</p>
+            <p th:text="${user.email}">admin@example.com</p>
           </div>
 
         </div>
@@ -89,25 +81,7 @@
 
         <div class="profile-details-grid">
 
-          <div class="profile-detail">
-            <label>Account Role</label>
-            <p>ADMIN</p>
-          </div>
 
-          <div class="profile-detail">
-            <label>Account Status</label>
-            <p>Active</p>
-          </div>
-
-          <div class="profile-detail">
-            <label>Username</label>
-            <p>admin</p>
-          </div>
-
-          <div class="profile-detail">
-            <label>Account Type</label>
-            <p>Administrator Account</p>
-          </div>
 
         </div>
 

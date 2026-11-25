@@ -805,11 +805,13 @@ body.auth-page {
     text-decoration: none;
     font-size: 14px;
     font-weight: 600;
+
 }
 
 .dashboard-logout:hover {
     background-color: #334155;
     color: #ffffff;
+
 }
 
 /* Main Content */
@@ -1602,4 +1604,44 @@ body.auth-page {
         grid-template-columns: 1fr;
         gap: 20px;
     }
+}
+
+
+.error-message {
+    color: #dc2626;
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 18px;
+}
+
+.success-message {
+    color: #047857;
+    background-color: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 18px;
+}
+
+
+/* Logout Form */
+.logout-form {
+    width: 100%;
+    margin: 0;
+    margin-top: 10px;
+}
+
+/* Logout Button */
+button.dashboard-logout {
+    display: block;
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: left;
+    font-family: inherit;
+    cursor: pointer;
 }

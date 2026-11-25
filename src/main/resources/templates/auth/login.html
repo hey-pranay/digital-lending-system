@@ -55,7 +55,20 @@
                 <p>Enter your credentials to continue.</p>
             </div>
 
-            <form action="#" method="post">
+            <div th:if="${param.error}" class="error-message">
+                Invalid email or password. Please try again.
+            </div>
+
+            <div th:if="${param.logout}" class="success-message">
+                You have been logged out successfully.
+            </div>
+
+            <div th:if="${successMessage}"
+                 class="success-message"
+                 th:text="${successMessage}">
+            </div>
+
+            <form th:action="@{/login}" method="post">
 
                 <div class="form-group">
                     <label for="email">Email Address</label>
