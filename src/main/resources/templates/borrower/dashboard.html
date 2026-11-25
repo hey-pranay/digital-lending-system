@@ -8,6 +8,141 @@
     <title>Borrower Dashboard | Digital Lending</title>
 
     <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+
+        /* Recent Activity Header */
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 12px;
+        }
+
+        .activity-header a {
+            color: #0d9488;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .activity-header a:hover {
+            text-decoration: underline;
+        }
+
+        /* Activity Item */
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Activity Icon */
+        .activity-icon {
+            width: 42px;
+            height: 42px;
+            min-width: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e6f4f1;
+            color: #0d9488;
+            border-radius: 12px;
+            font-size: 20px;
+        }
+
+        /* Activity Details */
+        .activity-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .activity-details h3 {
+            font-size: 14px;
+            margin: 0 0 5px;
+            color: #1e293b;
+        }
+
+        .activity-details p {
+            font-size: 12px;
+            color: #64748b;
+            margin: 0;
+        }
+
+        /* Amount and Status */
+        .activity-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 7px;
+        }
+
+        .activity-info strong {
+            font-size: 14px;
+            color: #1e293b;
+        }
+
+        .activity-status {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .status-approved,
+        .status-paid {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-rejected,
+        .status-overdue {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .status-submitted {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        /* Empty and Loading State */
+        .activity-empty {
+            padding: 25px;
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .activity-item {
+                gap: 10px;
+                padding: 13px 5px;
+            }
+
+            .activity-icon {
+                width: 36px;
+                height: 36px;
+                min-width: 36px;
+            }
+
+            .activity-info strong {
+                font-size: 12px;
+            }
+        }
+
+    </style>
+
 </head>
 
 <body class="dashboard-page">
@@ -34,36 +169,33 @@
             </div>
         </header>
 
+
         <!-- Loan Summary -->
         <section class="dashboard-summary">
-
             <h2>Loan Overview</h2>
 
             <div class="summary-grid">
 
                 <div class="summary-card">
                     <p>Total Loan Amount</p>
-                    <h3>₹0.00</h3>
+                    <h3 id="totalLoanAmount">₹0.00</h3>
                 </div>
 
                 <div class="summary-card">
                     <p>Outstanding Balance</p>
-                    <h3>₹0.00</h3>
+                    <h3 id="outstandingBalance">₹0.00</h3>
                 </div>
 
                 <div class="summary-card">
                     <p>Monthly EMI</p>
-                    <h3>₹0.00</h3>
+                    <h3 id="monthlyEmi">₹0.00</h3>
                 </div>
 
-                <div class="summary-card">
-                    <p>Loan Status</p>
-                    <h3>Not Applied</h3>
-                </div>
 
             </div>
-
         </section>
+
+        <!-- Quick Actions -->
 
         <!-- Quick Actions -->
         <section class="dashboard-actions">
@@ -71,38 +203,50 @@
             <h2>Quick Actions</h2>
 
             <div class="action-grid">
-                <a href="#" class="action-card">
+
+                <a th:href="@{/borrower/apply-loan}" class="action-card">
                     <h3>Apply for Loan</h3>
                     <p>Start a new loan application.</p>
                 </a>
 
-                <a href="#" class="action-card">
+                <a th:href="@{/borrower/loans}" class="action-card">
                     <h3>View My Loans</h3>
                     <p>Check your loan details and status.</p>
                 </a>
 
-                <a href="#" class="action-card">
+                <a th:href="@{/borrower/repayments}" class="action-card">
                     <h3>Repayment History</h3>
                     <p>Review your previous repayments.</p>
                 </a>
+
             </div>
 
         </section>
+
+
 
         <!-- Recent Activity -->
         <section class="dashboard-activity">
 
-            <h2>Recent Activity</h2>
+            <div class="activity-header">
+                <h2>Recent Activity</h2>
+                <a th:href="@{/borrower/loans}">View All Loans</a>
+            </div>
 
-            <div class="activity-empty">
-                <p>No recent activity to display.</p>
+            <div id="recentActivityContainer">
+                <div class="activity-empty">
+                    <p>Loading recent activities...</p>
+                </div>
             </div>
 
         </section>
+
 
     </main>
 
 </div>
 
+
+<script th:src="@{/js/borrower-dashboard.js}"></script>
 </body>
 </html>

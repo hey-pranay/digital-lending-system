@@ -1,12 +1,112 @@
 
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Repayments | Digital Lending</title>
+
+    <!-- Shared CSS -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <!-- Page-specific CSS -->
+    <style>
+        .repayment-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .repayment-table-section {
+            margin-top: 30px;
+        }
+
+        .repayment-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .repayment-table th,
+        .repayment-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+            white-space: nowrap;
+        }
+
+        .repayment-table th {
+            font-weight: 600;
+            color: #475569;
+            background: #f8fafc;
+        }
+
+        .repayment-table td {
+            color: #334155;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .empty-table-message {
+            text-align: center !important;
+            padding: 30px !important;
+            color: #64748b !important;
+        }
+
+        .loan-status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-paid {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-overdue {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .section-heading {
+            margin-bottom: 20px;
+        }
+
+        .section-heading h2 {
+            margin-bottom: 6px;
+        }
+
+        .section-heading p {
+            color: #64748b;
+        }
+
+        @media (max-width: 1000px) {
+            .repayment-summary-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .repayment-summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
+
 <body class="dashboard-page">
 
 <div class="dashboard-container">
@@ -17,7 +117,9 @@
     <!-- Main Content -->
     <main class="dashboard-main">
 
+        <!-- Page Header -->
         <header class="dashboard-header">
+
             <div>
                 <h1>Repayment Monitoring</h1>
                 <p>Monitor borrower instalments and repayment activities.</p>
@@ -27,79 +129,91 @@
                 <div class="user-avatar">A</div>
                 <span>Administrator</span>
             </div>
+
         </header>
-
-        <!-- Repayment Summary -->
-        <section class="dashboard-section">
-            <div class="summary-grid">
-
-                <div class="summary-card">
-                    <p>Total Instalments</p>
-                    <h2>0</h2>
-                </div>
-
-                <div class="summary-card">
-                    <p>Paid Instalments</p>
-                    <h2>0</h2>
-                </div>
-
-                <div class="summary-card">
-                    <p>Pending Instalments</p>
-                    <h2>0</h2>
-                </div>
-
-                <div class="summary-card">
-                    <p>Overdue Instalments</p>
-                    <h2>0</h2>
-                </div>
-
-            </div>
-        </section>
 
         <!-- Financial Summary -->
         <section class="dashboard-section">
+
             <h2>Collection Overview</h2>
 
-            <div class="summary-grid">
+            <div class="repayment-summary-grid">
 
                 <div class="summary-card">
                     <p>Total Expected Amount</p>
-                    <h2>₹0.00</h2>
+                    <h2 id="totalExpectedAmount">₹0.00</h2>
                 </div>
 
                 <div class="summary-card">
                     <p>Total Collected Amount</p>
-                    <h2>₹0.00</h2>
+                    <h2 id="totalCollectedAmount">₹0.00</h2>
                 </div>
 
                 <div class="summary-card">
                     <p>Pending Collection</p>
-                    <h2>₹0.00</h2>
+                    <h2 id="pendingCollection">₹0.00</h2>
                 </div>
 
                 <div class="summary-card">
                     <p>Overdue Amount</p>
-                    <h2>₹0.00</h2>
+                    <h2 id="overdueAmount">₹0.00</h2>
                 </div>
 
             </div>
+
         </section>
 
-        <!-- Repayment Table -->
+        <!-- Instalment Summary -->
+        <section class="dashboard-section">
+
+            <h2>Instalment Overview</h2>
+
+            <div class="repayment-summary-grid">
+
+                <div class="summary-card">
+                    <p>Total Instalments</p>
+                    <h2 id="totalRepayments">0</h2>
+                </div>
+
+                <div class="summary-card">
+                    <p>Paid Instalments</p>
+                    <h2 id="paidRepayments">0</h2>
+                </div>
+
+                <div class="summary-card">
+                    <p>Pending Instalments</p>
+                    <h2 id="pendingRepayments">0</h2>
+                </div>
+
+                <div class="summary-card">
+                    <p>Overdue Instalments</p>
+                    <h2 id="overdueRepayments">0</h2>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Repayment Records Table -->
         <section class="repayment-table-section">
 
             <div class="section-heading">
+
                 <h2>All Repayment Records</h2>
-                <p>Track instalment payments across all borrowers.</p>
+
+                <p>
+                    Track instalment payments across all borrowers.
+                </p>
+
             </div>
 
             <div class="table-responsive">
+
                 <table class="repayment-table">
 
                     <thead>
                     <tr>
-                        <th>Instalment ID</th>
-                        <th>Loan ID</th>
+                        <th>SR No.</th>
                         <th>Borrower</th>
                         <th>Due Date</th>
                         <th>Amount</th>
@@ -108,15 +222,18 @@
                     </tr>
                     </thead>
 
-                    <tbody>
+                    <tbody id="repaymentsTableBody">
+
                     <tr>
-                        <td colspan="7" class="empty-table-message">
-                            No repayment records found.
+                        <td colspan="6" class="empty-table-message">
+                            Loading repayment records...
                         </td>
                     </tr>
+
                     </tbody>
 
                 </table>
+
             </div>
 
         </section>
@@ -124,6 +241,9 @@
     </main>
 
 </div>
+
+<!-- Admin Repayment JavaScript -->
+<script th:src="@{/js/admin-repayments.js}"></script>
 
 </body>
 </html>

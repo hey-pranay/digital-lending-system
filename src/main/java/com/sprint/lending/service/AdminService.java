@@ -9,6 +9,7 @@ import com.sprint.lending.repository.LoanRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -59,13 +60,18 @@ public class AdminService {
 
         Loan loan = findLoanById(loanId);
 
-        if (loan.getStatus() != LoanStatus.PENDING) {
+        if (loan.getStatus() != LoanStatus.APPLIED
+                && loan.getStatus() != LoanStatus.PENDING) {
+
             throw new IllegalStateException(
-                    "Only pending loans can be approved");
+                    "Only applied or pending loans can be approved");
         }
 
         loan.setStatus(LoanStatus.APPROVED);
+        loan.setApprovalDate(LocalDateTime.now());
         loan.setRejectionRemarks(null);
+
+        loan.setRejectionDate(null);
 
         Loan savedLoan = loanRepository.save(loan);
 
@@ -80,9 +86,11 @@ public class AdminService {
 
         Loan loan = findLoanById(loanId);
 
-        if (loan.getStatus() != LoanStatus.PENDING) {
+        if (loan.getStatus() != LoanStatus.APPLIED
+                && loan.getStatus() != LoanStatus.PENDING) {
+
             throw new IllegalStateException(
-                    "Only pending loans can be rejected");
+                    "Only applied or pending loans can be rejected");
         }
 
         if (request == null
@@ -95,6 +103,7 @@ public class AdminService {
 
         loan.setStatus(LoanStatus.REJECTED);
         loan.setRejectionRemarks(request.getRemarks().trim());
+        loan.setRejectionDate(LocalDateTime.now());
 
         Loan savedLoan = loanRepository.save(loan);
 

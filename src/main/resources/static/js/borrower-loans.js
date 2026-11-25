@@ -92,33 +92,23 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        loans.forEach(loan => {
+        loans.forEach((loan, index) => {
 
             const row = document.createElement("tr");
 
-            row.appendChild(
-                createCell(loan.id, "loan-id")
-            );
+            // Serial number starts from 1.
+            row.appendChild(createCell(index + 1));
 
-            row.appendChild(
-                createCell(formatCurrency(loan.amount))
-            );
+            row.appendChild(createCell(formatCurrency(loan.amount)));
 
-            row.appendChild(
-                createCell(`${loan.interestRate}%`)
-            );
+            row.appendChild(createCell(`${loan.interestRate}%`));
 
-            row.appendChild(
-                createCell(`${loan.tenureMonths} Months`)
-            );
+            row.appendChild(createCell(`${loan.tenureMonths} Months`));
 
-            row.appendChild(
-                createCell(formatCurrency(loan.emi))
-            );
+            row.appendChild(createCell(formatCurrency(loan.emi)));
 
             // Status badge
             const statusCell = document.createElement("td");
-
             const statusBadge = document.createElement("span");
 
             const status = loan.status || "UNKNOWN";
@@ -132,14 +122,12 @@ document.addEventListener("DOMContentLoaded", () => {
             row.appendChild(statusCell);
 
             // Remarks
-            row.appendChild(
-                createCell(loan.remark || "-")
-            );
+            row.appendChild(createCell(loan.remark || "-"));
 
             tableBody.appendChild(row);
-
         });
     }
+
 
     // Fetch logged-in borrower's loans
     async function loadLoans() {

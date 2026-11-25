@@ -51,6 +51,8 @@ public class Loan {
 
     private LocalDateTime approvalDate;
 
+    private LocalDateTime rejectionDate;
+
     @Size(max = 500)
     @Column(length = 500)
     private String rejectionReason;
@@ -146,5 +148,14 @@ public class Loan {
 
     public void setRejectionRemarks(String rejectionRemarks) {
         this.rejectionRemarks = rejectionRemarks;
+    }
+
+
+    public LocalDateTime getRejectionDate() {
+        return rejectionDate;
+    }
+
+    public void setRejectionDate(LocalDateTime rejectionDate) {
+        this.rejectionDate = rejectionDate;
     }
 }
