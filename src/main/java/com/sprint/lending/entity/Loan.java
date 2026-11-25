@@ -43,6 +43,9 @@ public class Loan {
     @Column(nullable = false, length = 20)
     private LoanStatus status;
 
+    @Column(length = 500)
+    private String rejectionRemarks;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime applicationDate;
 
@@ -135,5 +138,13 @@ public class Loan {
 
     public void setBorrowerProfile(BorrowerProfile borrowerProfile) {
         this.borrowerProfile = borrowerProfile;
+    }
+
+    public String getRejectionRemarks() {
+        return rejectionRemarks;
+    }
+
+    public void setRejectionRemarks(String rejectionRemarks) {
+        this.rejectionRemarks = rejectionRemarks;
     }
 }
