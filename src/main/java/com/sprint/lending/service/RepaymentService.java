@@ -73,6 +73,8 @@ public class RepaymentService {
             repayment.setDueDate(firstDueDate.plusMonths(i));
             repayment.setStatus(RepaymentStatus.PENDING);
 
+            repayment.setInstalmentNumber(i + 1);
+
             repayments.add(repayment);
         }
 
@@ -108,14 +110,21 @@ public class RepaymentService {
     }
 
     // API 9: Filter repayments by status
+
+    // API 9: Filter repayments by status
+    @Transactional
     public List<RepaymentResponse> getRepaymentsByStatus(
             RepaymentStatus status) {
+
+        // Update overdue repayments before fetching records.
+        updateOverdueRepayments();
 
         return repaymentRepository.findByStatus(status)
                 .stream()
                 .map(this::mapToResponse)
                 .toList();
     }
+
 
     // API 10: Mark repayment as paid
     @Transactional
@@ -139,6 +148,18 @@ public class RepaymentService {
         return mapToResponse(savedRepayment);
     }
 
+
+    // Fetch repayment history for the logged-in borrower.
+    public List<RepaymentResponse> getMyRepayments(String email) {
+
+        return repaymentRepository
+                .findByLoan_BorrowerProfile_User_EmailOrderByDueDateAsc(email)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
+
+
     // Convert Repayment entity into response DTO
     private RepaymentResponse mapToResponse(Repayment repayment) {
 
@@ -151,4 +172,68 @@ public class RepaymentService {
                 repayment.getStatus().name()
         );
     }
+
+
+    // Automatically update pending repayments whose due dates have passed.
+    @Transactional
+    public void updateOverdueRepayments() {
+
+        List<Repayment> overdueRepayments =
+                repaymentRepository.findByStatusAndDueDateBefore(
+                        RepaymentStatus.PENDING,
+                        LocalDate.now()
+                );
+
+        for (Repayment repayment : overdueRepayments) {
+            repayment.setStatus(RepaymentStatus.OVERDUE);
+        }
+
+        repaymentRepository.saveAll(overdueRepayments);
+    }
+
+
+    // Mark an instalment as paid by the logged-in borrower.
+    @Transactional
+    public RepaymentResponse markMyRepaymentAsPaid(
+            Long repaymentId, String email) {
+
+        // Find the repayment.
+        Repayment repayment = repaymentRepository.findById(repaymentId)
+                .orElseThrow(() -> new RepaymentNotFoundException(
+                        "Repayment not found with ID: " + repaymentId
+                ));
+
+        // Verify that this repayment belongs to the logged-in borrower.
+        String borrowerEmail = repayment.getLoan()
+                .getBorrowerProfile()
+                .getUser()
+                .getEmail();
+
+        if (!borrowerEmail.equalsIgnoreCase(email)) {
+            throw new IllegalStateException(
+                    "You are not authorized to pay this repayment");
+        }
+
+        // Update overdue status before checking payment eligibility.
+        updateOverdueRepayments();
+
+        // Allow payment only for pending or overdue instalments.
+        if (repayment.getStatus() != RepaymentStatus.PENDING &&
+                repayment.getStatus() != RepaymentStatus.OVERDUE) {
+
+            throw new IllegalStateException(
+                    "This repayment has already been paid or cannot be paid");
+        }
+
+        // Update payment details.
+        repayment.setStatus(RepaymentStatus.PAID);
+        repayment.setPaymentDate(LocalDate.now());
+
+        Repayment savedRepayment = repaymentRepository.save(repayment);
+
+        return mapToResponse(savedRepayment);
+    }
+
+
+
 }

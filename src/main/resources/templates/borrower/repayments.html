@@ -1,97 +1,150 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Repayment History | Digital Lending</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repayment History | Digital Lending</title>
 
-  <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+
+
+    <style>
+        /* Pay Now button */
+        .pay-btn {
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            color: #ffffff;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+            box-shadow: 0 3px 8px rgba(13, 148, 136, 0.18);
+        }
+
+        .pay-btn:hover {
+            background: linear-gradient(135deg, #0f766e, #115e59);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(13, 148, 136, 0.25);
+        }
+
+        .pay-btn:active {
+            transform: translateY(0);
+        }
+
+        .pay-btn:disabled {
+            background: #94a3b8;
+            color: #ffffff;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            opacity: 0.8;
+        }
+
+        /* Keep action column aligned */
+        .repayment-table td:last-child {
+            text-align: center;
+            min-width: 110px;
+        }
+    </style>
+
+
 </head>
 
 <body class="dashboard-page">
 
 <div class="dashboard-container">
 
-  <!-- Reusable Borrower Sidebar -->
-  <div th:replace="~{fragments/common :: borrowerSidebar('repayments')}"></div>
+    <!-- Reusable Borrower Sidebar -->
+    <div th:replace="~{fragments/common :: borrowerSidebar('repayments')}"></div>
 
-  <!-- Main Content -->
-  <main class="dashboard-main">
+    <!-- Main Content -->
+    <main class="dashboard-main">
 
-    <header class="dashboard-header">
-      <div>
-        <h1>Repayment History</h1>
-        <p>Track your instalments and repayment status.</p>
-      </div>
-    </header>
+        <header class="dashboard-header">
+            <div>
+                <h1>Repayment History</h1>
+                <p>Track your instalments and repayment status.</p>
+            </div>
+        </header>
 
-    <!-- Repayment Summary -->
-    <section class="repayment-summary-grid">
+        <input type="hidden" id="csrfToken"
+               th:name="${_csrf.parameterName}"
+               th:value="${_csrf.token}">
 
-      <div class="repayment-summary-card">
-        <span>Total Instalments</span>
-        <h2>0</h2>
-      </div>
+        <!-- Repayment Summary -->
+        <section class="repayment-summary-grid">
 
-      <div class="repayment-summary-card">
-        <span>Paid Instalments</span>
-        <h2>0</h2>
-      </div>
+            <div class="repayment-summary-card">
+                <span>Total Instalments</span>
+                <h2 id="totalRepayments">0</h2>
+            </div>
 
-      <div class="repayment-summary-card">
-        <span>Pending Instalments</span>
-        <h2>0</h2>
-      </div>
+            <div class="repayment-summary-card">
+                <span>Paid Instalments</span>
+                <h2 id="paidRepayments">0</h2>
+            </div>
 
-      <div class="repayment-summary-card">
-        <span>Overdue Instalments</span>
-        <h2>0</h2>
-      </div>
+            <div class="repayment-summary-card">
+                <span>Pending Instalments</span>
+                <h2 id="pendingRepayments">0</h2>
+            </div>
 
-    </section>
+            <div class="repayment-summary-card">
+                <span>Overdue Instalments</span>
+                <h2 id="overdueRepayments">0</h2>
+            </div>
 
-    <!-- Repayment Table -->
-    <section class="repayment-table-section">
+        </section>
 
-      <div class="section-heading">
-        <h2>Instalment Details</h2>
-        <p>View your payment schedule and transaction history.</p>
-      </div>
+        <!-- Repayment Table -->
+        <section class="repayment-table-section">
 
-      <div class="table-responsive">
+            <div class="section-heading">
+                <h2>Instalment Details</h2>
+                <p>View your payment schedule and transaction history.</p>
+            </div>
 
-        <table class="repayment-table">
+            <p id="repaymentMessage" class="form-message"></p>
 
-          <thead>
-          <tr>
-            <th>Instalment ID</th>
-            <th>Loan ID</th>
-            <th>Due Date</th>
-            <th>Amount</th>
-            <th>Payment Date</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-          </thead>
+            <div class="table-responsive">
 
-          <tbody>
-          <tr>
-            <td colspan="7" class="empty-table-message">
-              No repayment records found.
-            </td>
-          </tr>
-          </tbody>
+                <table class="repayment-table">
 
-        </table>
+                    <thead>
+                    <tr>
+                        <th>Repayment Ref.</th>
+                        <th>Loan Ref.</th>
+                        <th>Due Date</th>
+                        <th>Amount</th>
+                        <th>Payment Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
 
-      </div>
+                    <tbody id="repaymentsTableBody">
+                    <tr>
+                        <td colspan="7" class="empty-table-message">
+                            Loading repayment records...
+                        </td>
+                    </tr>
+                    </tbody>
 
-    </section>
+                </table>
 
-  </main>
+            </div>
+
+        </section>
+
+    </main>
 
 </div>
+
+<script th:src="@{/js/borrower-repayments.js}"></script>
 
 </body>
 </html>

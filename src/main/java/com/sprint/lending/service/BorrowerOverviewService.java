@@ -1,5 +1,6 @@
 package com.sprint.lending.service;
 
+import com.sprint.lending.dto.response.LoanActivityResponse;
 import com.sprint.lending.dto.response.LoanDashboardResponse;
 import com.sprint.lending.dto.response.RepaymentHistoryResponse;
 import com.sprint.lending.dto.response.RepaymentResponse;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -215,4 +217,103 @@ public class BorrowerOverviewService {
 
         return amount.setScale(2, RoundingMode.HALF_UP);
     }
+
+    // API: Get borrower's recent activities
+    public List<LoanActivityResponse> getRecentActivities(String email) {
+
+        List<LoanActivityResponse> activities = new ArrayList<>();
+
+        LocalDate today = LocalDate.now();
+
+        List<Loan> loans = findBorrowerLoans(email);
+
+        for (Loan loan : loans) {
+
+            // Loan application submitted
+            activities.add(new LoanActivityResponse(
+                    "LOAN",
+                    "Loan Application Submitted",
+                    loan.getId(),
+                    loan.getLoanAmount(),
+                    loan.getApplicationDate(),
+                    "SUBMITTED"
+            ));
+
+            // Loan approved
+            if (loan.getApprovalDate() != null) {
+
+                activities.add(new LoanActivityResponse(
+                        "LOAN",
+                        "Loan Approved",
+                        loan.getId(),
+                        loan.getLoanAmount(),
+                        loan.getApprovalDate(),
+                        "APPROVED"
+                ));
+            }
+
+            // Loan rejected
+            if (loan.getRejectionDate() != null) {
+
+                activities.add(new LoanActivityResponse(
+                        "LOAN",
+                        "Loan Rejected",
+                        loan.getId(),
+                        loan.getLoanAmount(),
+                        loan.getRejectionDate(),
+                        "REJECTED"
+                ));
+            }
+
+            // Get repayments belonging to this loan
+            List<Repayment> repayments =
+                    repaymentRepository.findByLoanId(loan.getId());
+
+            for (Repayment repayment : repayments) {
+
+                // Repayment completed
+                if (repayment.getStatus() == RepaymentStatus.PAID
+                        && repayment.getPaymentDate() != null) {
+
+                    activities.add(new LoanActivityResponse(
+                            "REPAYMENT",
+                            "Repayment Completed",
+                            loan.getId(),
+                            repayment.getAmount(),
+                            repayment.getPaymentDate().atStartOfDay(),
+                            "PAID"
+                    ));
+                }
+
+                // Repayment overdue
+                else if (repayment.getStatus() == RepaymentStatus.OVERDUE
+                        || (repayment.getStatus() == RepaymentStatus.PENDING
+                        && repayment.getDueDate().isBefore(today))) {
+
+                    activities.add(new LoanActivityResponse(
+                            "REPAYMENT",
+                            "Repayment Overdue",
+                            loan.getId(),
+                            repayment.getAmount(),
+                            repayment.getDueDate().atStartOfDay(),
+                            "OVERDUE"
+                    ));
+                }
+            }
+        }
+
+        // Sort activities by newest date first
+        activities.sort(
+                Comparator.comparing(
+                        LoanActivityResponse::activityDate
+                ).reversed()
+        );
+
+        // Return only the latest five activities
+        return activities.stream()
+                .limit(5)
+                .toList();
+    }
+
+
 }

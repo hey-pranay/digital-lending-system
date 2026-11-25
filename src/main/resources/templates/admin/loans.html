@@ -1,100 +1,177 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>All Loans | Digital Lending</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Loans | Digital Lending</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+  <style>
+
+    /* Loan status badges */
+    .loan-status {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .status-approved {
+      background: #e0f5f0;
+      color: #087f68;
+    }
+
+    .status-applied,
+    .status-pending {
+      background: #fff4dc;
+      color: #a66b00;
+    }
+
+    .status-rejected {
+      background: #fff0f0;
+      color: #c03945;
+    }
+
+    .status-closed {
+      background: #edf0f4;
+      color: #526174;
+    }
+
+    /* Generate repayment schedule button */
+    .generate-schedule-btn {
+        background: linear-gradient(135deg, #0d9488, #0f766e);
+        color: #ffffff;
+        border: none;
+        padding: 9px 14px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.25s ease;
+        box-shadow: 0 3px 8px rgba(13, 148, 136, 0.18);
+    }
+
+    .generate-schedule-btn:hover {
+        background: linear-gradient(135deg, #0f766e, #115e59);
+        transform: translateY(-2px);
+    }
+
+    .generate-schedule-btn:disabled {
+        background: #94a3b8;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .schedule-generated {
+        color: #087f68;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+  </style>
+
 </head>
 <body class="dashboard-page">
 
 <div class="dashboard-container">
 
-  <!-- Admin Sidebar -->
-  <aside th:replace="~{fragments/common :: adminSidebar('loans')}"></aside>
+    <!-- Admin Sidebar -->
+    <aside th:replace="~{fragments/common :: adminSidebar('loans')}"></aside>
 
-  <!-- Main Content -->
-  <main class="dashboard-main">
+    <!-- Main Content -->
+    <main class="dashboard-main">
 
-    <header class="dashboard-header">
-      <div>
-        <h1>All Loans</h1>
-        <p>View and monitor all borrower loan records.</p>
-      </div>
+        <input type="hidden" id="csrfToken"
+               th:name="${_csrf.parameterName}"
+               th:value="${_csrf.token}">
 
-      <div class="dashboard-user">
-        <div class="user-avatar">A</div>
-        <span>Administrator</span>
-      </div>
-    </header>
+        <header class="dashboard-header">
+            <div>
+                <h1>All Loans</h1>
+                <p>View and monitor all borrower loan records.</p>
+            </div>
 
-    <!-- Loan Summary -->
-    <section class="dashboard-section">
-      <div class="summary-grid">
+            <div class="dashboard-user">
+                <div class="user-avatar">A</div>
+                <span>Administrator</span>
+            </div>
+        </header>
 
-        <div class="summary-card">
-          <p>Total Loans</p>
-          <h2>0</h2>
-        </div>
+        <!-- Loan Summary -->
+        <section class="dashboard-section">
+            <div class="summary-grid">
 
-        <div class="summary-card">
-          <p>Approved Loans</p>
-          <h2>0</h2>
-        </div>
+                <div class="summary-card">
+                    <p>Total Loans</p>
+                    <h2 id="totalLoans">0</h2>
+                </div>
 
-        <div class="summary-card">
-          <p>Pending Loans</p>
-          <h2>0</h2>
-        </div>
+                <div class="summary-card">
+                    <p>Approved Loans</p>
+                    <h2 id="approvedLoans">0</h2>
+                </div>
 
-        <div class="summary-card">
-          <p>Rejected Loans</p>
-          <h2>0</h2>
-        </div>
+                <div class="summary-card">
+                    <p>Pending Loans</p>
+                    <h2 id="pendingLoans">0</h2>
+                </div>
 
-      </div>
-    </section>
+                <div class="summary-card">
+                    <p>Rejected Loans</p>
+                    <h2 id="rejectedLoans">0</h2>
+                </div>
 
-    <!-- Loans Table -->
-    <section class="loans-table-section">
+            </div>
+        </section>
 
-      <div class="section-heading">
-        <h2>Loan Records</h2>
-        <p>Overview of all loan applications and their current status.</p>
-      </div>
+        <!-- Loans Table -->
+        <section class="loans-table-section">
 
-      <div class="table-responsive">
-        <table class="loans-table">
+            <div class="section-heading">
+                <h2>Loan Records</h2>
+                <p>Overview of all loan applications and their current status.</p>
+            </div>
 
-          <thead>
-          <tr>
-            <th>Loan ID</th>
-            <th>Borrower</th>
-            <th>Loan Amount</th>
-            <th>Interest Rate</th>
-            <th>Tenure</th>
-            <th>EMI Amount</th>
-            <th>Status</th>
-          </tr>
-          </thead>
+            <div class="table-responsive">
+                <table class="loans-table">
 
-          <tbody>
-          <tr>
-            <td colspan="7" class="empty-table-message">
-              No loan records found.
-            </td>
-          </tr>
-          </tbody>
+                    <thead>
+                    <tr>
+                        <th>SR No.</th>
+                        <th>Borrower</th>
+                        <th>Loan Amount</th>
+                        <th>Interest Rate</th>
+                        <th>Tenure</th>
+                        <th>EMI Amount</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
 
-        </table>
-      </div>
+                    <tbody id="loansTableBody">
+                      <tr>
+                          <td colspan="8" class="empty-table-message">
+                              Loading loan records...
+                          </td>
+                      </tr>
+                    </tbody>
 
-    </section>
+                </table>
+            </div>
 
-  </main>
+        </section>
+
+    </main>
 
 </div>
 
+
+<script th:src="@{/js/admin-loans.js}"></script>
 </body>
 </html>

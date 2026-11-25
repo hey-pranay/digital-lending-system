@@ -5,8 +5,145 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Profile | Digital Lending</title>
+
   <link rel="stylesheet" th:href="@{/css/style.css}">
+
+  <style>
+    /* Main profile layout */
+    .admin-profile-container {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin-top: 25px;
+    }
+
+    /* Profile identity card */
+    .admin-identity-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 32px;
+      box-shadow: 0 4px 15px rgba(15, 23, 42, 0.05);
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .admin-profile-avatar {
+      width: 82px;
+      height: 82px;
+      min-width: 82px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0f766e, #14b8a6);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 700;
+      box-shadow: 0 5px 12px rgba(15, 118, 110, 0.2);
+    }
+
+    .admin-profile-heading h2 {
+      color: #0f172a;
+      font-size: 23px;
+      margin: 0 0 7px;
+    }
+
+    .admin-profile-heading p {
+      color: #64748b;
+      font-size: 14px;
+      margin: 0 0 12px;
+    }
+
+    .admin-role-badge {
+      display: inline-block;
+      background: #ccfbf1;
+      color: #0f766e;
+      padding: 6px 13px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+    }
+
+    /* Information card */
+    .admin-information-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 30px;
+      box-shadow: 0 4px 15px rgba(15, 23, 42, 0.05);
+    }
+
+    .admin-information-card h3 {
+      color: #0f172a;
+      font-size: 18px;
+      margin: 0 0 24px;
+    }
+
+    .admin-profile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .admin-profile-detail {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 17px 19px;
+    }
+
+    .admin-profile-detail label {
+      display: block;
+      color: #64748b;
+      font-size: 13px;
+      margin-bottom: 9px;
+    }
+
+    .admin-profile-detail p {
+      color: #0f172a;
+      font-size: 15px;
+      font-weight: 600;
+      margin: 0;
+      word-break: break-word;
+    }
+
+    /* Responsive layout */
+    @media (max-width: 768px) {
+      .admin-identity-card {
+        padding: 24px;
+      }
+
+      .admin-information-card {
+        padding: 24px;
+      }
+
+      .admin-profile-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .admin-identity-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .admin-profile-avatar {
+        width: 70px;
+        height: 70px;
+        min-width: 70px;
+        font-size: 27px;
+      }
+
+      .admin-profile-heading h2 {
+        font-size: 20px;
+      }
+    }
+  </style>
 </head>
+
 <body class="dashboard-page">
 
 <div class="dashboard-container">
@@ -20,74 +157,63 @@
     <header class="dashboard-header">
       <div>
         <h1>My Profile</h1>
-        <p>View and manage your administrator account information.</p>
-      </div>
-
-      <div class="dashboard-user">
-        <div class="user-avatar"
-             th:text="${#strings.substring(user.name, 0, 1).toUpperCase()}">A</div>
-        <span th:text="${user.name}">Administrator</span>
+        <p>View your administrator account information.</p>
       </div>
     </header>
 
-    <!-- Profile Information -->
-    <section class="profile-section">
+    <div class="admin-profile-container">
 
-      <div class="profile-header">
+      <!-- Administrator Identity Card -->
+      <section class="admin-identity-card">
 
-        <div class="profile-avatar"
-             th:text="${#strings.substring(user.name, 0, 1).toUpperCase()}">A</div>
-
-        <div class="profile-heading">
-          <h2 th:text="${user.name}">Administrator Name</h2>
-          <p>System Administrator</p>
+        <div class="admin-profile-avatar"
+             th:text="${#strings.substring(user.name, 0, 1).toUpperCase()}">
+          A
         </div>
 
-<!--        <button type="button" class="edit-profile-button">-->
-<!--          Edit Profile-->
-<!--        </button>-->
+        <div class="admin-profile-heading">
+          <h2 th:text="${user.name}">Administrator Name</h2>
+          <p th:text="${user.email}">admin@example.com</p>
 
-      </div>
+          <span class="admin-role-badge">
+                        SYSTEM ADMINISTRATOR
+                    </span>
+        </div>
 
-      <div class="profile-divider"></div>
+      </section>
 
       <!-- Personal Information -->
-      <div class="profile-details-section">
+      <section class="admin-information-card">
 
         <h3>Personal Information</h3>
 
-        <div class="profile-details-grid">
+        <div class="admin-profile-grid">
 
-          <div class="profile-detail">
+          <div class="admin-profile-detail">
             <label>Full Name</label>
             <p th:text="${user.name}">Administrator Name</p>
           </div>
 
-          <div class="profile-detail">
+          <div class="admin-profile-detail">
             <label>Email Address</label>
             <p th:text="${user.email}">admin@example.com</p>
           </div>
 
-        </div>
+          <div class="admin-profile-detail">
+            <label>Account Role</label>
+            <p>Administrator</p>
+          </div>
 
-      </div>
-
-      <div class="profile-divider"></div>
-
-      <!-- Account Information -->
-      <div class="profile-details-section">
-
-        <h3>Account Information</h3>
-
-        <div class="profile-details-grid">
-
-
+          <div class="admin-profile-detail">
+            <label>Account Type</label>
+            <p>Administrative Account</p>
+          </div>
 
         </div>
 
-      </div>
+      </section>
 
-    </section>
+    </div>
 
   </main>
 

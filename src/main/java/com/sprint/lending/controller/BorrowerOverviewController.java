@@ -1,5 +1,6 @@
 package com.sprint.lending.controller;
 
+import com.sprint.lending.dto.response.LoanActivityResponse;
 import com.sprint.lending.dto.response.LoanDashboardResponse;
 import com.sprint.lending.dto.response.RepaymentHistoryResponse;
 import com.sprint.lending.service.BorrowerOverviewService;
@@ -8,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/loans")
@@ -41,6 +44,19 @@ public class BorrowerOverviewController {
 
         return ResponseEntity.ok(
                 borrowerOverviewService.getRepaymentHistory(
+                        authentication.getName()
+                )
+        );
+    }
+
+
+    // API 5: Borrower Recent Activities
+    @GetMapping("/activities")
+    public ResponseEntity<List<LoanActivityResponse>> getRecentActivities(
+            Authentication authentication) {
+
+        return ResponseEntity.ok(
+                borrowerOverviewService.getRecentActivities(
                         authentication.getName()
                 )
         );
