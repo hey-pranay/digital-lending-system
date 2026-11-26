@@ -149,7 +149,21 @@ public class BorrowerOverviewService {
     }
 
     // Calculate estimated outstanding principal
+    // Calculate estimated outstanding principal
     private BigDecimal calculateOutstandingBalance(Loan loan) {
+
+        List<Repayment> allRepayments =
+                repaymentRepository.findByLoanId(loan.getId());
+
+        // If all scheduled instalments are paid,
+        // outstanding balance is exactly zero.
+        if (!allRepayments.isEmpty()
+                && allRepayments.stream().allMatch(
+                repayment ->
+                        repayment.getStatus() == RepaymentStatus.PAID)) {
+
+            return BigDecimal.ZERO.setScale(2);
+        }
 
         BigDecimal balance = loan.getLoanAmount();
 
@@ -160,17 +174,14 @@ public class BorrowerOverviewService {
                         RoundingMode.HALF_UP
                 );
 
-        List<Repayment> paidRepayments =
-                repaymentRepository.findByLoanId(loan.getId())
-                        .stream()
-                        .filter(repayment ->
-                                repayment.getStatus()
-                                        == RepaymentStatus.PAID)
-                        .sorted(
-                                Comparator.comparing(
-                                        Repayment::getInstalmentNumber)
-                        )
-                        .toList();
+        List<Repayment> paidRepayments = allRepayments.stream()
+                .filter(repayment ->
+                        repayment.getStatus() == RepaymentStatus.PAID)
+                .sorted(
+                        Comparator.comparing(
+                                Repayment::getInstalmentNumber)
+                )
+                .toList();
 
         for (Repayment repayment : paidRepayments) {
 
@@ -188,7 +199,6 @@ public class BorrowerOverviewService {
 
         return formatAmount(balance);
     }
-
     // Convert repayment entity into response DTO
     private RepaymentResponse mapRepayment(
             Repayment repayment,
