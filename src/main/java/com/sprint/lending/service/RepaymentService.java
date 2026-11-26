@@ -145,6 +145,24 @@ public class RepaymentService {
 
         Repayment savedRepayment = repaymentRepository.save(repayment);
 
+        // Fetch all instalments for this loan.
+        Loan loan = repayment.getLoan();
+
+        List<Repayment> allRepayments =
+                repaymentRepository.findByLoanId(loan.getId());
+
+        // Check whether the complete repayment schedule is paid.
+        boolean allPaid = allRepayments.size() == loan.getTenureMonths()
+                && allRepayments.stream().allMatch(
+                r -> r.getStatus() == RepaymentStatus.PAID
+        );
+
+        // Close the loan after all instalments are paid.
+        if (allPaid) {
+            loan.setStatus(LoanStatus.CLOSED);
+            loanRepository.save(loan);
+        }
+
         return mapToResponse(savedRepayment);
     }
 
