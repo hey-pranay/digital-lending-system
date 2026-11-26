@@ -150,8 +150,13 @@ public class RepaymentService {
 
 
     // Fetch repayment history for the logged-in borrower.
+    @Transactional
     public List<RepaymentResponse> getMyRepayments(String email) {
 
+        // First, update pending repayments whose due dates have passed.
+        updateOverdueRepayments();
+
+        // Then fetch the latest repayment records.
         return repaymentRepository
                 .findByLoan_BorrowerProfile_User_EmailOrderByDueDateAsc(email)
                 .stream()
